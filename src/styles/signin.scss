@@ -9,6 +9,20 @@
 
   padding: 0 1.5rem;
 }
+h1 {
+  color: white;
+}
+.input__email,
+.input__password {
+  width: 100%;
+  max-width: 412px;
+  height: 40px;
+  border-radius: 0.5rem;
+  color: #1a1919;
+  border: none;
+  margin-top: 2rem;
+  padding-left: 2rem;
+}
 form {
   display: flex;
   justify-content: center;
@@ -18,8 +32,9 @@ form {
   max-height: 400px;
 }
 
-button {
+.button__submit {
   width: 100%;
+  max-width: 412px;
   border-radius: 0.5rem;
   color: #1a1919;
   font-weight: bold;
@@ -27,15 +42,18 @@ button {
   background-color: #ca0b0b;
   height: 40px;
   border: none;
+  &:hover {
+    cursor: pointer;
+  }
 }
-a {
+.link__signup,
+.link__signin {
   text-decoration: none;
   color: white;
 }
 
 @media screen and (min-width: 720px) {
   .signin {
-    
     background-color: #1d1f21;
     max-width: 1280px;
     height: 100vh;
@@ -68,7 +86,7 @@ a {
       border: none;
     }
   }
-  button {
+  .button__submit {
     width: 100%;
     border-radius: 0.5rem;
     color: #1a1919;
@@ -78,6 +96,4 @@ a {
     height: 40px;
     border: none;
   }
-
-  
 }

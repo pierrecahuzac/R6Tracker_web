@@ -76,7 +76,7 @@ const Maps = () => {
 
                     return (
                         <button
-                            className="button__map" // 👈 Renommé ici
+                            className="button__map"
                             key={map.id}
                             onClick={() => handleChooseMap(map.name, map.id)}
                             style={{

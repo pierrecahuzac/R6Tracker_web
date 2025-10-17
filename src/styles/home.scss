@@ -1,27 +1,80 @@
 .home {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  &__login-signup {
-    display :flex
-    ;
-    flex-direction: column;
-    color: white;
-    &:hover {
-      text-decoration: none;
-    }
-  }
-  &__signin, &__signup {
-    margin-top: 2rem;
-  }
-  &__log {
+    position: relative;
+    width: 100%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
+    &__login-signup {
+      display: flex;
+      flex-direction: column;
+      color: white;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    &__signin,
+    &__signup {
+      margin-top: 2rem;
+    }
+    &__buttons{
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center
+    }
+    &__log {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+  }
+
+.button__logout,
+.button__new-game {
+  width: 200px;
+  height: 30px;
+  background-color: transparent;
+  border: solid 1px white;
+  color: white;
+  text-transform: uppercase;
+  &:hover {
+    color: #fff;
+    border: 1px solid hsla(0, 0%, 100%, 0.5);
+    transition: background-color 0.15s ease-in, border-color 0.15s ease-in,
+      color 0.15s ease-in;
+  }
+}
+@media screen and (min-width: 720px) {
+  .home {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &__login-signup {
+      display: flex;
+      flex-direction: column;
+      color: white;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+    &__signin,
+    &__signup {
+      margin-top: 2rem;
+    }
+    &__log {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
   }
 }

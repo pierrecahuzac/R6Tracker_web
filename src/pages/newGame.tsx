@@ -5,7 +5,7 @@ import { useQuery, } from "@tanstack/react-query";
 import { useGameContext } from "../contexts/gameContext";
 import { useNavigate } from "react-router-dom";
 
-
+import '../styles/new-game.scss'
 
 const NewGame = () => {
     document.title = "Nouvelle partie";
@@ -18,7 +18,7 @@ const NewGame = () => {
     const fetchGameModes = async (): Promise<{ id: string; name: string }[]> => {
         const response = await axios.get(`${baseAPIURL}/gameMode/getAll`);
         console.log(response.data);
-        
+
         return response.data;
     }
 
@@ -62,14 +62,16 @@ const NewGame = () => {
 
     }
     return (
-        <div>
-            <p>Nouvelle partie</p>
+        <div className="game-modes"> 
+            <h1>Nouvelle partie</h1>
             <p>{game.id}</p>
             {query.isLoading && <p>Chargement...</p>}
             {query.isError && <p>Erreur de chargement</p>}
-            {query.data && query.data.map((mode) => (
-                <button key={mode.id ?? mode.name} onClick={() => onChooseGameMode(mode)} >{mode.name}</button>
-            ))}
+            <div className="game-modes__list">Liste des modes de jeu
+                {query.data && query.data.map((mode) => (
+                    <button className="button__game-mode" key={mode.id ?? mode.name} onClick={() => onChooseGameMode(mode)} >{mode.name}</button>
+                ))}
+            </div>
         </div>
 
     )

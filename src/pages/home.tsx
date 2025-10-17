@@ -1,10 +1,10 @@
 
 import { Link, useNavigate } from "react-router-dom";
 
-import axios from "axios";
+// import axios from "axios";
 import { logout } from "../functions/player";
 import { createNewGame } from "../functions/newGame";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
 import { useGameContext } from "../contexts/gameContext";
 
 
@@ -17,22 +17,22 @@ const Home = () => {
     const { player, setPlayer, setGame } = useGameContext();
 
 
-    const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
+    // const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
-    const fetchGames = async () => {
-        try {
-            const response = await axios.get(`${baseAPIURL}/game/findAll`);
-            return response.data;
-        } catch (error) {
-            console.log(error);
+    // const fetchGames = async () => {
+    //     try {
+    //         const response = await axios.get(`${baseAPIURL}/game/findAll`);
+    //         return response.data;
+    //     } catch (error) {
+    //         console.log(error);
 
-        }
-    }
-    const { data: games, isLoading, error } = useQuery({
-        queryKey: ['games'],
-        queryFn: fetchGames,
-        enabled: player.isLoggedIn
-    })
+    //     }
+    // }
+    // const { data: games, isLoading, error } = useQuery({
+    //     queryKey: ['games'],
+    //     queryFn: fetchGames,
+    //     enabled: player.isLoggedIn
+    // })
 
     //   useEffect(() => {
 
@@ -61,7 +61,9 @@ const Home = () => {
             }}>
                 <nav style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
                     {player && player.isLoggedIn === true ? (
-                        <div style={{ alignItems: "center" }} style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                        <div
+
+                            style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
                             <Link to={`/player/${player.id}`}>
                                 Bienvenue, {player.username}
                             </Link>

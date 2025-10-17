@@ -1,0 +1,64 @@
+/* Styles généraux pour le conteneur principal */
+.maps-container {
+    padding: 1rem;
+    // Assure que le texte du titre est bien blanc sur votre fond sombre
+    color: white; 
+
+    h2 {
+        margin-bottom: 1.5rem; 
+        font-size: 1.5rem;
+    }
+}
+
+/* Conteneur pour la grille des boutons de cartes */
+.maps-grid {
+    display: grid;
+    // La grille s'adapte automatiquement et assure des colonnes d'au moins 200px
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+/* Styles pour le bouton de carte */
+.button__map {
+    width: 100%;
+    height: 120px;
+    position: relative;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    border: 3px solid transparent; // Bordure de base transparente
+    background: none; 
+    transition: border-color 0.2s, transform 0.2s; // Ajout d'une transition pour le scale
+
+    &:hover {
+        border-color: #ca0b0b; // Bordure rouge au survol
+        transform: scale(1.03); // Effet de zoom léger pour indiquer l'interactivité
+    }
+    
+    // Style de l'image de fond (doit prendre tout le bouton)
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.7; // Légèrement transparent pour que le texte ressorte
+        display: block; 
+        transition: opacity 0.2s;
+    }
+    
+    // Style du nom de la carte au centre (span)
+    span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffffff; // Blanc pur
+        background-color: rgba(0, 0, 0, 0.65); // Fond noir un peu plus opaque
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 700; // Gras
+        font-size: 1.2rem; // Taille augmentée
+        text-transform: uppercase; // En majuscules pour une meilleure lisibilité
+        pointer-events: none; // Permet de cliquer sur le bouton à travers le texte
+        z-index: 10; // S'assure qu'il est au-dessus de l'image
+    }
+}

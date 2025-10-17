@@ -3,7 +3,7 @@
 
 .home {
   background-color: #1d1f21;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,9 +35,7 @@
     max-width: 412px;
     align-items: center;
     text-align: center;
-    line-height: 40px;    
-
-   
+    line-height: 40px;
   }
   &__login-signup {
     display: flex;
@@ -47,7 +45,7 @@
       text-decoration: none;
     }
   }
- 
+
   &__signin,
   &__signup {
     @include mixins.button;
@@ -68,16 +66,29 @@
     align-items: center;
     color: white;
   }
+  &__language-choice {
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    max-width: 412px;
+    justify-content: space-between
+  }
+  &__language-fr,
+  &__language-en {
+    @include mixins.button-other;
+    width: 80px
+  }
 }
 
 .button__logout,
 .button__new-game {
-  width: 200px;
-  height: 30px;
+  width: 300px;
+  height: 40px;
   background-color: transparent;
   border: solid 1px white;
   color: white;
   text-transform: uppercase;
+  margin-top: 2rem;
   &:hover {
     color: #fff;
     border: 1px solid hsla(0, 0%, 100%, 0.5);
@@ -100,11 +111,10 @@
       flex-direction: column;
       align-items: center;
     }
-    &__links{
+    &__links {
       display: flex;
       flex-direction: column;
       align-items: center;
-     
     }
     &__login-signup {
       display: flex;

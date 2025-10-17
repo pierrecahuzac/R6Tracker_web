@@ -116,7 +116,7 @@ const Signin = () => {
       <>
         <Link to="/signup" className="link__signup">Créer un compte?
         </Link>
-        <Link to="/forgotPassword" className="link__signin">Mot de passe oublié?
+        <Link to="/password-forgot" className="link__signin">Mot de passe oublié?
         </Link></>
 
 

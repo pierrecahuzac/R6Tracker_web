@@ -1,0 +1,15 @@
+@use "./mixins";
+@use "./vars";
+
+.end-game {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__button, &__back-to-home {
+    @include mixins.button-other;
+  }
+}

@@ -8,12 +8,13 @@
   justify-content: center;
   display: flex;
   flex-direction: column;
-  &__container{
+  &__container {
     width: 90%;
-    
   }
   &__side {
-    width: 60%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     margin: auto;
   }
   &__stats {
@@ -31,14 +32,15 @@
   }
   &__points {
     display: flex;
+    flex-direction: column;
     align-items: center;
     width: 100%;
-    &> label {
-        display: inline-block;
+    & > label {
+      display: inline-block;
     }
   }
   &__input-points {
-   text-align: center;
+    text-align: center;
     width: 300px;
     height: 40px;
     color: rgb(44, 44, 44);
@@ -52,25 +54,42 @@
 
 .buttons__kills,
 .buttons__assists {
-  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  
 }
 .buttons__list {
   display: flex;
   flex-direction: row;
   width: 100%;
-  justify-content: space-between;
+  height: 60px;
+  justify-content: space-evenly;
 }
-.button__base,
 
-.button__default ,.button__result{
-  @include mixins.button-text;
-}
-.button__result-default{
-    width: 40px;
+.button__number {
+  width: 40px!important;
+  height: 40px;
+  color: black;
 }
 .button__selected {
-     @include mixins.button-text-selected;}
+  @include mixins.button-text-selected;
+  border: 2px solid red;
+  margin-top: 0
+}
+
+.button__unselected {
+  @include mixins.button-text;
+  margin-top: 0
+  
+}
+
 .button__valid-round {
-    @include mixins.button;
-    padding: 0.5rem
+  @include mixins.button;
+  padding: 0.5rem;
+}
+h4 {
+  width: 100%;
+  text-align: left;
 }

@@ -10,9 +10,11 @@ import Maps from './pages/maps'
 import Operator from './pages/operator'
 import SideChoice from './pages/sideChoice'
 import Round from './pages/round'
+import PasswordForgot from './pages/passwordForgot'
+import { ToastContainer } from 'react-toastify'
+import EndGame from './pages/endGame'
 
 import './styles/App.css'
-import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newGame" element={<NewGame />} />
+        {/* <Route path="/profil/:playerId" element={<NewGame />} /> */}
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/stats" element={<Stats />} />
@@ -29,6 +32,8 @@ function App() {
         <Route path="/operator" element={<Operator />} />
         <Route path="/sideChoice" element={<SideChoice />} />
         <Route path="/round" element={<Round />} />
+        <Route path="/password-forgot" element={<PasswordForgot />} />
+        <Route path="/end-game" element={<EndGame />} />
       </Routes>
 
     </>

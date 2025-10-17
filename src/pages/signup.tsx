@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import '../styles/signup.scss'
 // URL de base de votre API (récupérée de l'environnement Vite)
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
 
@@ -18,7 +19,7 @@ const Signup = () => {
    * Cette version garantit la compatibilité en accédant toujours à e.target.
    * @param {import('react').ChangeEvent<HTMLInputElement>} e - L'objet événement de changement.
    */
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     // CORRECTION/OPTIMISATION : On assure que l'on extrait le 'name' et le 'value' de l'input
     const { name, value } = e.target; 
     
@@ -33,6 +34,7 @@ const Signup = () => {
    * Gestionnaire de la soumission du formulaire
    * @param {import('react').FormEvent} e - Événement de formulaire
    */
+   {/* @ts-ignore */}
   const handleSubmitAccount = async (e) => {
     // Empêche le rechargement de la page par défaut (correction pour éviter les fetch involontaires)
     e.preventDefault(); 
@@ -62,6 +64,7 @@ const Signup = () => {
       console.log("Compte créé avec succès:", response.data);
 
     } catch (error) { 
+       {/* @ts-ignore */}
       const errorMessage = error.response?.data?.message || "Erreur inconnue lors de l'inscription.";
       console.error("Erreur API:", errorMessage);
     }
@@ -69,13 +72,7 @@ const Signup = () => {
 
   return (
     <div 
-      style={{
-        display: 'flex', // Remplacé flex: 1 par display: flex pour un contexte web
-        flexDirection: 'column',
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: '100vh', // Ajout pour centrer sur toute la hauteur
-      }}
+     className="signup"
     >
       <p style={{ marginBottom: 12 }}>Créer mon compte</p>
       
@@ -159,7 +156,7 @@ const Signup = () => {
         
         {/* BOUTON de soumission */}
         <div style={{ width: 240, marginBottom: 16 }}>
-          <button type="submit" style={{ width: '100%', padding: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: 6, cursor: 'pointer' }}>
+          <button type="submit" className="button">
             Créer mon compte
           </button> 
         </div>
@@ -173,11 +170,6 @@ const Signup = () => {
   );
 }
 
-// L'objet styles n'est pas utilisé tel quel mais est conservé par convention
-const styles = ({
-  container: {
-    backgroundColor: 'red'
-  }
-});
+
 
 export default Signup;

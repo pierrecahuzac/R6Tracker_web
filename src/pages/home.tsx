@@ -7,6 +7,8 @@ import { createNewGame } from "../functions/newGame";
 import { useQuery } from "@tanstack/react-query";
 import { useGameContext } from "../contexts/gameContext";
 
+
+import '../styles/home.scss'
 //import Toast from 'react-native-toast-message';
 
 
@@ -47,28 +49,30 @@ const Home = () => {
     //     }
 
     //   }, [])
-const navigate = useNavigate()
+    const navigate = useNavigate()
     return (
 
         <div
-            className='w-100'
+            className='home'
         >
+            {/* <Header /> */}
+
             {player && player.isLoggedIn === true ? (
                 <div style={{ alignItems: "center" }}>
-                    <Link to={`/player/${player.id}`} style={{ marginBottom: 20 }}>
+                    <Link to={`/player/${player.id}`}>
                         Bienvenue, {player.username}
                     </Link>
 
                     <Link
                         to={{ pathname: `/player/${player.id}`, }}
-                        style={{ marginBottom: 4 }}
+                       
                     >
                         Profil
                     </Link>
                     <Link to={{
                         pathname: ` /stats/${player.id}`,
-                        
-                    }} style={{ marginBottom: 20 }}>
+
+                    }}>
                         Stats
                     </Link>
                     <div>
@@ -79,15 +83,15 @@ const navigate = useNavigate()
                             <p key={game.id}>{game.id}</p>
                         ))}
                     </div>
-                    <button title="Déconnexion" color="#841584" onClick={() => logout(setPlayer)} />
+                    <button color="#841584" onClick={() => logout(setPlayer)}  >Déconnexion</button>
 
-                    <button title="Nouvelle partie" onClick={() => createNewGame(player, setGame, navigate)} />
+                    <button  onClick={() => createNewGame(player, setGame, navigate)}  >Nouvelle partie</button>
                     {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
                 </div>
             ) : (
-                <Link to={`/signin`}>Connexion</Link>
+                <Link to={`/signin`} className="home__login">Connexion</Link>
             )}
-            
+
         </div>
 
     );

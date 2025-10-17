@@ -11,6 +11,7 @@ import Operator from './pages/operator'
 import SideChoice from './pages/sideChoice'
 import Round from './pages/round'
 
+import './styles/App.css'
 
 function App() {
   return (

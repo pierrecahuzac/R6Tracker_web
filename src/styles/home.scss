@@ -1,12 +1,27 @@
 .home {
   width: 100vw;
   height: 100vh;
-  &__login {
-  color: #000000;
-  &:hover{
-    text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__login-signup {
+    display :flex
+    ;
+    flex-direction: column;
+    color: white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  &__signin, &__signup {
+    margin-top: 2rem;
+  }
+  &__log {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
   }
 }
-}
-
-

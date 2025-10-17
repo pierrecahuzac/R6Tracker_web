@@ -46,7 +46,7 @@ const Operator = () => {
     const {
         data: operatorsData,
         isLoading,
-        error
+        //error
     } = useQuery({
         queryKey: ['operators'],
         queryFn: fetchOperatorsBySide
@@ -69,6 +69,8 @@ const Operator = () => {
         setRound({
             ...round,
             operatorId: operator.id,
+
+            // @ts-ignore
             operator
         });
         navigate('/round')
@@ -80,6 +82,7 @@ const Operator = () => {
         // style={styles.container}
         >
             <div>
+             {/* @ts-ignore */}
                 <p>Liste des agents ({operatorsData.length})
                 </p>
             </div>
@@ -116,6 +119,7 @@ const Operator = () => {
                                             height: "60px"
                                         }}
                                         key={operator.id}
+                                        // @ts-ignore
                                         src={operator.image}
                                     />
                                 }

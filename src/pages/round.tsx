@@ -37,16 +37,11 @@ const Round = () => {
                 round,
                 isFinished: true
             })
-            const { gameStatus, finalScore } = response.data;
-            console.log(gameStatus, finalScore);
-
+            const { gameStatus } = response.data;
 
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
-                console.log(('je suis là'));
 
-                console.log(`Jeu terminé. Statut: ${gameStatus}. Score final: ${finalScore}`);
                 navigate('/endGame')
-
                 return
             }
 
@@ -67,16 +62,12 @@ const Round = () => {
                     points: 0,
                     isFinished: false
                 }),
-
                     navigate('/sideChoice')
             }
-
         } catch (error) {
-            console.error();
             onError(`Erreur lors de la validation du round: ${error}`)
         }
     }
-
 
     const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputPoints = e.target.value;
@@ -132,13 +123,9 @@ const Round = () => {
                 acc.totalRounds += 1;
                 return acc;
             }, initialStats);
-            console.log('aggregatedStats', aggregatedStats);
-
             setStatsForGame(aggregatedStats)
-
         } catch (error) {
-            console.log(error);
-
+            onError(`Erreur lors de la récupération des rounds: ${error}`)
         }
     }
 
@@ -147,7 +134,7 @@ const Round = () => {
     }
     useEffect(() => {
         fetchDatas()
-    }, [game.id, round.roundNumber]) // Ajout des dépendances pour une meilleure pratique
+    }, [game.id, round.roundNumber])
 
     return (
         <div className="round">
@@ -158,9 +145,8 @@ const Round = () => {
                         Score : <span className="">Joueur {statsForGame.playerScore ?? 0}</span> - <span className="">Adversaire {statsForGame.opponentScore ?? 0}</span>
                     </div>
                 </div>
-
                 <div className="round__side">
-                    <h2 className="">Résultat du Round</h2>
+                    {/* <h4 className="">Résultat du Round</h4> */}
                     <div className="buttons__list">
                         {statValuesResult.map(roundResult => (
                             <StatButton
@@ -175,9 +161,8 @@ const Round = () => {
                         ))}
                     </div>
                 </div>
-
                 <div className="buttons__kills">
-                    <p className="">Kills</p>
+                    <h3 className="">Kills</h3>
                     <div className="buttons__list">
                         {statValues.map(value => (
                             <StatButton
@@ -192,10 +177,9 @@ const Round = () => {
                         ))}
                     </div>
                 </div>
-
                 {/* Section ASSISTS */}
                 <div className="buttons__assists">
-                    <p className="">Assists</p>
+                    <div className="">Assists</div>
                     <div className="buttons__list">
                         {statValues.map(value => (
                             <StatButton
@@ -210,27 +194,25 @@ const Round = () => {
                         ))}
                     </div>
                 </div>
-
                 {/* Section MORT */}
                 <div >
-                    <p className="">Mort</p>
+                    <h3 className="">Mort</h3>
                     <div className="buttons__list">
                         <StatButton title="Oui" className="round__death" value={true} stat="death" setRound={setRound} round={round} />
                         <StatButton title="Non" className="round__death" value={false} stat="death" setRound={setRound} round={round} />
                     </div>
                 </div>
-
                 {/* Section DÉCONNEXION */}
                 <div >
-                    <p className="">Déconnexion</p>
+                    <h3 className="">Déconnexion</h3>
                     <div className="buttons__list">
                         <StatButton title="Oui" value={true} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
                         <StatButton title="Non" value={false} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
                     </div>
                 </div>
-
                 {/* Section POINTS (input corrigé) */}
                 <div className="round__points">
+                    <h3 className="round__score-points">points</h3>
                     <label htmlFor="points-input" className="">Points :</label>
                     <input
                         className="round__input-points"
@@ -241,7 +223,6 @@ const Round = () => {
                         value={round.points !== undefined ? String(round.points) : ''}
                         onChange={handlePointChange}
                     />
-                    <p className="round__score-points">points</p>
                 </div>
 
                 {/* Affichage du récapitulatif conditionnel */}

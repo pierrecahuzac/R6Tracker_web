@@ -64,7 +64,7 @@ const NewGame = () => {
     return (
         <div className="game-modes"> 
             <h1>Nouvelle partie</h1>
-            <p>{game.id}</p>
+            {/* <p>{game.id}</p> */}
             {query.isLoading && <p>Chargement...</p>}
             {query.isError && <p>Erreur de chargement</p>}
             <div className="game-modes__list">Liste des modes de jeu

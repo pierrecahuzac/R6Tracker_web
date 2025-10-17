@@ -66,6 +66,8 @@ const Home = () => {
 
                 {player.id ? <div className="home__buttons">
                     <div className="home__links" >
+                        <Link to={`/#`} className="button__new-game">{player.username}</Link>
+                        <Link to={`/stats`} className="button__new-game">Statistiques</Link>
                         <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">{player.language === "Fr" ? "Nouvelle partie" : "New game"}</button> <button className="button__new-game">{player.language === "Fr" ? "Déconnexion" : "Logout"}</button>
                     </div>
 

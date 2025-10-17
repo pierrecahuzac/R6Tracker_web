@@ -82,12 +82,13 @@
 
 .button__logout,
 .button__new-game {
-  width: 200px;
-  height: 30px;
+  width: 300px;
+  height: 40px;
   background-color: transparent;
   border: solid 1px white;
   color: white;
   text-transform: uppercase;
+  margin-top: 2rem;
   &:hover {
     color: #fff;
     border: 1px solid hsla(0, 0%, 100%, 0.5);

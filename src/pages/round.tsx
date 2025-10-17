@@ -41,7 +41,7 @@ const Round = () => {
 
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
 
-                navigate('/endGame')
+                navigate('/end-game')
                 return
             }
 
@@ -140,7 +140,7 @@ const Round = () => {
         <div className="round">
             <div className="round__container">
                 <div className="round__stats">
-                    <h1 className="" >Round {round.roundNumber}</h1>
+                    <h1 className="" >Manche {round.roundNumber}</h1>
                     <div className='round__game-stats'>
                         Score : <span className="">Joueur {statsForGame.playerScore ?? 0}</span> - <span className="">Adversaire {statsForGame.opponentScore ?? 0}</span>
                     </div>
@@ -162,7 +162,7 @@ const Round = () => {
                     </div>
                 </div>
                 <div className="buttons__kills">
-                    <h3 className="">Kills</h3>
+                    <h4 className="">Joueurs tués</h4>
                     <div className="buttons__list">
                         {statValues.map(value => (
                             <StatButton
@@ -179,7 +179,7 @@ const Round = () => {
                 </div>
                 {/* Section ASSISTS */}
                 <div className="buttons__assists">
-                    <div className="">Assists</div>
+                    <h4 className="">Assistances</h4>
                     <div className="buttons__list">
                         {statValues.map(value => (
                             <StatButton
@@ -196,7 +196,7 @@ const Round = () => {
                 </div>
                 {/* Section MORT */}
                 <div >
-                    <h3 className="">Mort</h3>
+                    <h4 className="">Mort ?</h4>
                     <div className="buttons__list">
                         <StatButton title="Oui" className="round__death" value={true} stat="death" setRound={setRound} round={round} />
                         <StatButton title="Non" className="round__death" value={false} stat="death" setRound={setRound} round={round} />
@@ -204,7 +204,7 @@ const Round = () => {
                 </div>
                 {/* Section DÉCONNEXION */}
                 <div >
-                    <h3 className="">Déconnexion</h3>
+                    <h4 className="">Déconnexion ?</h4>
                     <div className="buttons__list">
                         <StatButton title="Oui" value={true} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
                         <StatButton title="Non" value={false} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
@@ -212,8 +212,8 @@ const Round = () => {
                 </div>
                 {/* Section POINTS (input corrigé) */}
                 <div className="round__points">
-                    <h3 className="round__score-points">points</h3>
-                    <label htmlFor="points-input" className="">Points :</label>
+                    <h4 >Points totalisés</h4>
+                    
                     <input
                         className="round__input-points"
                         id="points-input"

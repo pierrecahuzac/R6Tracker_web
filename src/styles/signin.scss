@@ -1,3 +1,6 @@
+@use "./mixins";
+@use "./vars";
+
 .signin {
   background-color: #1d1f21;
   width: 100vw;
@@ -8,6 +11,13 @@
   align-items: center;
 
   padding: 0 1.5rem;
+  &__error {
+    color: red;
+    z-index: 2;
+    margin-top: 1rem;
+    font-size: 1rem;
+    text-align: center;
+  }
 }
 h1 {
   color: white;
@@ -33,18 +43,10 @@ form {
 }
 
 .button__submit {
-  width: 100%;
+  @include mixins.button;
   max-width: 412px;
-  border-radius: 0.5rem;
-  color: #1a1919;
-  font-weight: bold;
-  margin-top: 2rem;
-  background-color: #ca0b0b;
-  height: 40px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
+ 
+  
 }
 .link__signup,
 .link__signin {

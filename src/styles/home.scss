@@ -1,38 +1,74 @@
+@use "./mixins";
+@use "./vars";
+
 .home {
-    position: relative;
+  background-color: #1d1f21;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1.5rem;
+
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     width: 100%;
-    height: 100vh;
+    max-height: 400px;
+  }
+  &__logo {
+    width: 200px;
+    height: 200px;
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  &__links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 412px;
+    align-items: center;
+    text-align: center;
+    line-height: 40px;    
+
+   
+  }
+  &__login-signup {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+ 
+  &__signin,
+  &__signup {
+    @include mixins.button;
+    max-width: 412px;
+    text-decoration: none;
+  }
+  &__buttons {
+    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    &__login-signup {
-      display: flex;
-      flex-direction: column;
-      color: white;
-      &:hover {
-        text-decoration: none;
-      }
-    }
-    &__signin,
-    &__signup {
-      margin-top: 2rem;
-    }
-    &__buttons{
-        margin-top: 2rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center
-    }
-    &__log {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-    }
   }
+  &__log {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+  }
+}
 
 .button__logout,
 .button__new-game {
@@ -57,6 +93,19 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    &__container {
+      max-width: 412px;
+      max-height: 409px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    &__links{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+     
+    }
     &__login-signup {
       display: flex;
       flex-direction: column;
@@ -67,7 +116,8 @@
     }
     &__signin,
     &__signup {
-      margin-top: 2rem;
+      @include mixins.button;
+      max-width: 412px;
     }
     &__log {
       display: flex;

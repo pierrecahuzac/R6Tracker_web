@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import '../styles/signup.scss'
+import useToast from "../hooks/useToast";
 // URL de base de votre API (récupérée de l'environnement Vite)
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
 
@@ -13,7 +14,10 @@ const Signup = () => {
     password: '',
     passwordConfirmation: "",
   });
-
+  const navigate = useNavigate();
+  const {
+    onError,
+  } = useToast()
   /**
    * Gestionnaire générique des changements de saisie.
    * Cette version garantit la compatibilité en accédant toujours à e.target.
@@ -67,6 +71,8 @@ const Signup = () => {
       {/* @ts-ignore */ }
       const errorMessage = error.response?.data?.message || "Erreur inconnue lors de l'inscription.";
       console.error("Erreur API:", errorMessage);
+      onError(errorMessage)
+      navigate('/signin')
     }
   };
 

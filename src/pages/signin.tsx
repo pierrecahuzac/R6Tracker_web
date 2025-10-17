@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {  useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
 import axios from "axios";
 
@@ -7,17 +7,23 @@ import axios from "axios";
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
 import '../styles/signin.scss';
+import useToast from "../hooks/useToast";
+
 
 const Signin = () => {
-  const {  setPlayer } = useGameContext();
+  const { setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
     email: '',
     password: ''
   });
+  const {
+    onError,
+    } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     const { name, value } = e.target;
     setLogin((prev) => ({
       ...prev,
@@ -49,18 +55,20 @@ const Signin = () => {
         email: playerFromResponse.email,
         isLoggedIn: true,
       };
-// @ts-ignore
+      // @ts-ignore
       setPlayer(fullPlayerObject);
       console.log("Connexion réussie. Bienvenue:", fullPlayerObject.username);
       navigate('/');
 
-    } catch (error)
-     {
+    } catch (error) {
       // @ts-ignore
       const errorMessage = error.response?.data?.message || "Erreur de connexion.";
-      console.error("Erreur de connexion:", errorMessage);
+      // @ts-ignore
+      onError(error.response?.data?.message || "Erreur de connexion.")
+
     }
   };
+
 
   return (
     <div
@@ -75,7 +83,7 @@ const Signin = () => {
 
         {/* CHAMP EMAIL */}
         <input
-        className="input__email"
+          className="input__email"
           placeholder="Email"
           name="email"
           value={login.email}
@@ -87,7 +95,7 @@ const Signin = () => {
 
         {/* CHAMP MOT DE PASSE */}
         <input
-         className="input__password"
+          className="input__password"
           placeholder="Mot de passe"
           name="password"
           value={login.password}
@@ -102,13 +110,13 @@ const Signin = () => {
           Se connecter
         </button>
 
-      </form>
 
+      </form>
 
       <>
         <Link to="/signup" className="link__signup">Créer un compte?
         </Link>
-        <Link to="/forgotPassword"  className="link__signin">Mot de passe oublié?
+        <Link to="/forgotPassword" className="link__signin">Mot de passe oublié?
         </Link></>
 
 

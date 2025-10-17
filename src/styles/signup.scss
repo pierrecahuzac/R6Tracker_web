@@ -1,3 +1,6 @@
+@use "./mixins";
+@use "./vars";
+
 .signup {
   background-color: #1d1f21;
   width: 100vw;
@@ -29,17 +32,7 @@ form {
   padding-left: 2rem;
 }
 .button__submit {
-  width: 100%;
-  border-radius: 0.5rem;
-  color: #1a1919;
-  font-weight: bold;
-  margin-top: 2rem;
-  background-color: #ca0b0b;
-  height: 40px;
-  border: none;
-  &:hover {
-    cursor: pointer;
-  }
+  @include mixins.button;
 }
 a {
   text-decoration: none;

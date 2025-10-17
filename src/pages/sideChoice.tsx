@@ -4,7 +4,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 
-
+import '../styles/side-choice.scss'
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
 
 const SideChoice = () => {
@@ -56,10 +56,12 @@ const SideChoice = () => {
 
     }, [])
     return (
-        <div>
-            <div>Round: {round.roundNumber}</div>
-            <button onClick={() => chooseSide('ATTACK')} >Attaque</button>
-            <button onClick={() => chooseSide('DEFENSE')} >Défense</button>
+        <div className="side-choice">
+            <h1 className="side-choice__title">Round: {round.roundNumber}</h1>
+            <div className="side-choice__buttons">
+                <button className="side-choice__button-side" onClick={() => chooseSide('ATTACK')} >Attaque</button>
+                <button className="side-choice__button-side" onClick={() => chooseSide('DEFENSE')} >Défense</button>
+            </div>
         </div>
     )
 }

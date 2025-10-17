@@ -2,8 +2,6 @@ import axios from "axios";
 import { useGameContext } from "../contexts/gameContext";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-// 💡 IMPORTANT : Importez votre fichier SCSS/CSS ici
-import '../styles/maps.scss'; 
 
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
@@ -12,7 +10,7 @@ interface MapData {
     name: string;
     nameFr: string;
     id: string;
-    url?: string; 
+    url?: string; // Ajout de l'URL pour l'image
 }
 
 const Maps = () => {
@@ -21,6 +19,7 @@ const Maps = () => {
 
     const fetchMaps = async () => {
         const response = await axios.get(`${baseAPIURL}/map/getAll`);
+        // Assurez-vous que l'URL est bien présente dans les données renvoyées par l'API
         return response.data;
     }
 
@@ -34,7 +33,6 @@ const Maps = () => {
     })
 
     const updateGame = async (mapChosen: string) => {
-        // ... (le corps de la fonction reste inchangé) ...
         try {
             await axios.put(`${baseAPIURL}/game/update/${game.id}`, {
                 data: {
@@ -43,11 +41,12 @@ const Maps = () => {
             })
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la partie:", error);
+            // Retourner sans naviguer si l'API échoue
         }
     }
 
     const handleChooseMap = async (mapName: string, id: string) => {
-        // ... (le corps de la fonction reste inchangé) ...
+        // Mise à jour rapide du contexte UI
         setGame({
             ...game,
             map: {
@@ -55,44 +54,73 @@ const Maps = () => {
                 id
             }
         })
+
+        // Mise à jour de l'API
         await updateGame(mapName)
+        
+        // Navigation après la mise à jour
         navigate("/sideChoice")
     }
 
     const playerLanguage = player.language
 
     return (
-        // 💡 Utilisation de la classe CSS pour le conteneur principal
-        <div className="maps-container"> 
+        <div style={{ padding: '1rem' }}>
             <h2>Sélectionnez une carte</h2>
             {isLoading && <div>Chargement des cartes...</div>}
             {error && <p>Erreur de chargement des cartes.</p>}
             
-            {/* 💡 Utilisation de la classe CSS pour la grille */}
-            <div className="maps-grid">
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                 {mapsData && mapsData.map((map) => {
                     const mapDisplayName = playerLanguage === "Fr" ? map.nameFr : map.name;
 
                     return (
                         <button
-                            className="button__map" // 💡 Classe pour le bouton
+                            className="button__map" // 👈 Renommé ici
                             key={map.id}
                             onClick={() => handleChooseMap(map.name, map.id)}
-                            // 💡 Suppression des styles en ligne (sauf `onMouseOver`/`onMouseOut` si vous voulez les garder, mais je les ai mis dans le SCSS avec `:hover`)
-                            // J'ai enlevé les `onMouseOver`/`onMouseOut` car ils sont gérés par le `:hover` dans le SCSS
+                            style={{
+                                width: "100%",
+                                height: "120px", 
+                                position: "relative",
+                                overflow: "hidden", 
+                                padding: 0,
+                                border: '3px solid transparent',
+                                cursor: 'pointer',
+                                transition: 'border-color 0.2s',
+                            }}
+                            onMouseOver={(e) => (e.currentTarget.style.borderColor = '#ca0b0b')}
+                            onMouseOut={(e) => (e.currentTarget.style.borderColor = 'transparent')}
                         >
                             {/* 1. Image de fond */}
                             {map.url && (
                                 <img
                                     src={map.url}
                                     alt={`Image de la carte ${mapDisplayName}`}
-                                    // 💡 Suppression des styles en ligne
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover", 
+                                        opacity: 0.7, 
+                                    }}
                                 />
                             )}
                             
                             {/* 2. Nom de la carte au centre */}
                             <span
-                                // 💡 Suppression des styles en ligne
+                                style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)", 
+                                    color: "white",
+                                    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+                                    padding: "0.25rem 0.5rem",
+                                    borderRadius: "4px",
+                                    fontWeight: "bold",
+                                    fontSize: "1.1rem",
+                                    textShadow: "1px 1px 2px black"
+                                }}
                             >
                                 {mapDisplayName}
                             </span>

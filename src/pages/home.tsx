@@ -2,41 +2,41 @@
 import { Link, useNavigate } from "react-router-dom";
 
 
-import { logout } from "../functions/player";
+//import { logout } from "../functions/player";
 import { createNewGame } from "../functions/newGame";
 
 import { useGameContext } from "../contexts/gameContext";
 
 import Logo from "/r6tracker.png";
-import '../styles/home.scss'
 import { useEffect } from "react";
 import useToast from "../hooks/useToast";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+// import axios from "axios";
+// import { useQuery } from "@tanstack/react-query";
 
 
 
+import '../styles/home.scss'
 
 const Home = () => {
     const { player, setPlayer, setGame } = useGameContext();
     const { onSuccess } = useToast()
 
-    const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
+    // const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
-    const fetchGames = async () => {
-        try {
-            const response = await axios.get(`${baseAPIURL}/game/findAll`);
-            return response.data;
-        } catch (error) {
-            console.log(error);
+    // const fetchGames = async () => {
+    //     try {
+    //         const response = await axios.get(`${baseAPIURL}/game/findAll`);
+    //         return response.data;
+    //     } catch (error) {
+    //         console.log(error);
 
-        }
-    }
-    const { data: games, isLoading, error } = useQuery({
-        queryKey: ['games'],
-        queryFn: fetchGames,
-        enabled: player.isLoggedIn
-    })
+    //     }
+    // }
+    // const { data: games, isLoading, error } = useQuery({
+    //     queryKey: ['games'],
+    //     queryFn: fetchGames,
+    //     enabled: player.isLoggedIn
+    // })
 
     useEffect(() => {
         if (player.username) {

@@ -9,7 +9,7 @@ const PasswordForgot = () => {
     const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value)
     }
-    const handleSubmit = async (e : any) => {
+    const handleSubmit = async () => {
         try {
             const response = await axios.post(`${baseAPIURL}/player/forgotPassword`)
             console.log(response);

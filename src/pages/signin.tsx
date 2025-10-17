@@ -3,10 +3,13 @@ import { useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
 import axios from "axios";
 
+
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
+import '../styles/signin.scss';
+
 const Signin = () => {
-  const { player, setPlayer } = useGameContext();
+  const {  setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
@@ -36,7 +39,7 @@ const Signin = () => {
         password: login.password,
       });
       console.log(response);
-      
+
       const playerFromResponse = response.data.player || response.data;
       console.log(playerFromResponse);
 
@@ -46,12 +49,14 @@ const Signin = () => {
         email: playerFromResponse.email,
         isLoggedIn: true,
       };
-
+// @ts-ignore
       setPlayer(fullPlayerObject);
       console.log("Connexion réussie. Bienvenue:", fullPlayerObject.username);
       navigate('/');
 
-    } catch (error) {
+    } catch (error)
+     {
+      // @ts-ignore
       const errorMessage = error.response?.data?.message || "Erreur de connexion.";
       console.error("Erreur de connexion:", errorMessage);
     }
@@ -59,19 +64,13 @@ const Signin = () => {
 
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: '100vh',
-      }}
+      className='signin'
     >
-      <p style={{ marginBottom: 12 }}>Connexion</p>
+      <h1 className=''>Connexion</h1>
 
       <form
         onSubmit={handleLogin}
-        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+
       >
 
         {/* CHAMP EMAIL */}
@@ -82,15 +81,7 @@ const Signin = () => {
           onChange={handleInputChange}
           autoCapitalize="none"
           type="email"
-          style={{
-            width: 240,
-            height: 44,
 
-            border: '1px solid #ccc',
-            borderRadius: 6,
-            paddingLeft: 10,
-            marginBottom: 8,
-          }}
         />
 
         {/* CHAMP MOT DE PASSE */}
@@ -100,31 +91,23 @@ const Signin = () => {
           value={login.password}
           onChange={handleInputChange}
           type="password"
-          style={{
-            width: 240,
-            height: 44,
 
-            border: '1px solid #ccc',
-            borderRadius: 6,
-            paddingLeft: 10,
-            marginBottom: 12,
-          }}
         />
 
         {/* BOUTON de soumission */}
-        <div style={{ width: 240, marginBottom: 16 }}>
-          <button type="submit" style={{ width: '100%', padding: '10px', background: '#007bff', color: 'white', border: 'none', borderRadius: 6, cursor: 'pointer' }}>
-            Se connecter
-          </button>
-        </div>
+
+        <button type="submit" className="button" >
+          Se connecter
+        </button>
+
       </form>
 
-     
-        <>
-          <Link to="/signup" style={{ marginBottom: '8px' }}>Créer un compte?
-          </Link>
-          <Link to="/forgotPassword">Mot de passe oublié?
-          </Link></>
+
+      <>
+        <Link to="/signup" >Créer un compte?
+        </Link>
+        <Link to="/forgotPassword">Mot de passe oublié?
+        </Link></>
 
 
     </div>

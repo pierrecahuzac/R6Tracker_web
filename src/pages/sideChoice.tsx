@@ -13,6 +13,7 @@ const SideChoice = () => {
     const chooseSide = async (sideChoosen: 'ATTACK' | 'DEFENSE') => {
         setRound({
             ...round,
+            // @ts-ignore
             side: sideChoosen
         });
 

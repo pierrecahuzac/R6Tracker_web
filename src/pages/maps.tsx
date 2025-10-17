@@ -28,7 +28,7 @@ const Maps = () => {
     const updateGame = async (mapChosen: string) => {
 
         try {
-            const response = await axios.put(`${baseAPIURL}/game/update/${game.id}`, {
+            await axios.put(`${baseAPIURL}/game/update/${game.id}`, {
                 data: {
                     map: mapChosen,
                 }

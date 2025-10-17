@@ -1,0 +1,79 @@
+.signin {
+  background-color: #1d1f21;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 1.5rem;
+}
+form {
+  width: 100%;
+  height: 100%;
+}
+
+button {
+  width: 100%;
+  border-radius: 0.5rem;
+  color: #1a1919;
+  font-weight: bold;
+  margin-top: 2rem;
+  background-color: #ca0b0b;
+  height: 40px;
+  border: none;
+}
+a {
+  text-decoration: none;
+  color: white;
+}
+
+@media screen and (min-width: 720px) {
+  .signin {
+    
+    background-color: #1d1f21;
+    max-width: 1280px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  form {
+    max-width: 412px;
+    max-height: 409px;
+  }
+  input {
+    width: 100%;
+    border-radius: 0.5rem;
+    color: #1a1919;
+    font-weight: bold;
+    background-color: rgb(183, 181, 181);
+    height: 40px;
+    margin-top: 2rem;
+    border: none;
+    padding-left: 2rem;
+    &:focus {
+      background-color: rgb(130, 127, 127);
+      border: none;
+    }
+    &:hover {
+      background-color: rgb(130, 127, 127);
+      border: none;
+    }
+  }
+  button {
+    width: 100%;
+    border-radius: 0.5rem;
+    color: #1a1919;
+    font-weight: bold;
+    margin-top: 2rem;
+    background-color: #ca0b0b;
+    height: 40px;
+    border: none;
+  }
+
+  
+}

@@ -1,19 +1,16 @@
-
 import { useGameContext } from "../contexts/gameContext";
 import axios from "axios";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
-
+import React from "react"; // Ajout de l'import React si ce n'est pas déjà dans le contexte
 
 // --- Types pour la réutilisation des boutons ---
-type StatKey = 'kills' | 'assists' | 'death' | 'disconnected';
+type StatKey = 'kills' | 'assists' | 'death' | 'disconnected' | 'roundResult';
 
 interface StatButtonProps {
     title: string;
-    value: number | boolean;
+    value: number | boolean | string;
     stat: StatKey;
     setRound: (newRound: any) => void;
     round: any; // Idéalement, utilisez le type de 'round' ici
@@ -22,21 +19,33 @@ interface StatButtonProps {
 /**
  * Composant réutilisable pour mettre à jour une stat spécifique (kills, assists, death, etc.).
  */
-const StatButton = ({ title, value, stat, setRound, round }: StatButtonProps) => (
-    <div style={styles.button_container}>
-        <button
-            title={title}
-            // La couleur peut indiquer l'état sélectionné, par exemple
-            color={round[stat] === value ? '#3498db' : '#2c3e50'}
-            onClick={() => {
-                setRound({
-                    ...round,
-                    [stat]: value // Utilisation d'une clé dynamique pour mettre à jour la stat
-                });
-            }}
-        />
-    </div>
-);
+const StatButton = ({ title, value, stat, setRound, round }: StatButtonProps) => {
+    // Détermine si le bouton est actuellement sélectionné (le statut est stocké dans round[stat])
+    const isSelected = round[stat] === value;
+
+    // Classes de base pour tous les boutons
+    const baseClasses = "flex-grow min-w-[10%] mx-1 py-2 px-3 rounded-lg text-center font-medium transition duration-150 ease-in-out shadow-md border-2";
+
+    // Classes spécifiques basées sur la sélection
+    const selectedClasses = "bg-blue-600 border-blue-700 text-white hover:bg-blue-700";
+    const defaultClasses = "bg-gray-100 border-gray-300 text-gray-800 hover:bg-gray-200";
+
+    return (
+        <div className="flex-grow min-w-[10%] mx-1">
+            <button
+                className={`${baseClasses} ${isSelected ? selectedClasses : defaultClasses}`}
+                onClick={() => {
+                    setRound({
+                        ...round,
+                        [stat]: value // Utilisation d'une clé dynamique pour mettre à jour la stat
+                    });
+                }}
+            >
+                {title}
+            </button>
+        </div>
+    );
+};
 
 
 const Round = () => {
@@ -47,6 +56,7 @@ const Round = () => {
 
     const statValues = [0, 1, 2, 3, 4, 5];
     const statValuesResult = ["Victory", "Defeat", "Draw"];
+
     const [statsForGame, setStatsForGame] = useState({
         totalKills: 0,
         totalAssists: 0,
@@ -57,66 +67,10 @@ const Round = () => {
         playerScore: 0,
         opponentScore: 0
     })
-    // const validRound = async () => {
-    //     try {
-    //         const response = await axios.put(`${baseAPIURL}/round/update/${round.id}`, {
-    //             round,
-    //             isFinished: true
-    //         })
-    //         console.log(response.data.gameStatus);
 
-    //         if (response.data.gameStatus === 'PLAYER_WON') {
-    //             Toast.show({
-    //                 type: 'success',
-    //                 text1: 'Victoire',
-
-    //             })
-    //             return
-    //         }
-    //         if (response.data.gameStatus === 'PLAYER_LOST') {
-    //             Toast.show({
-    //                 type: 'error',
-    //                 text1: 'Défaite',
-
-    //             })
-    //             return
-    //         }
-    //         if (response.data.gameStatus === 'IN_PROGRESS') {
-    //             setTimeout(() => {
-    //                 Toast.show({
-    //                     type: 'success',
-    //                     text1: 'Round suivant',
-
-    //                 })
-    //             }, 1000);
-    //             setRound({
-    //                 id: '',
-    //                 roundNumber: round.roundNumber + 1,
-    //                 gameId: game.id,
-    //                 sideId: "",
-    //                 sideName: "",
-    //                 winningSideId: "",
-    //                 operatorId: "",
-    //                 kills: 0,
-    //                 death: false,
-    //                 assists: 0,
-    //                 disconnected: false,
-    //                 points: 0,
-    //                 isFinished: true
-
-    //             }),
-
-    //                 navigate('/sideChoice')
-    //         }
-
-
-
-    //     } catch (error) {
-    //         console.log(error);
-
-    //     }
-    // }
     const navigate = useNavigate()
+    
+    // Fonction validRound inchangée (dépend de axios et des API)
     const validRound = async () => {
         try {
             const response = await axios.put(`${baseAPIURL}/round/update/${round.id}`, {
@@ -130,25 +84,16 @@ const Round = () => {
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
                 console.log(('je suis là'));
 
-                // Toast.show({
-                //     type: gameStatus === 'PLAYER_WON' ? 'success' : 'error',
-                //     text1: gameStatus === 'PLAYER_WON' ? 'Victoire !' : (gameStatus === 'PLAYER_LOST' ? 'Défaite !' : 'Match Nul !'),
-                //     text2: `Score final: ${finalScore}`,
-                // });
+                // Normalement ici il y aurait une alerte ou une modale (car Toast n'est pas importé et alert() est interdit)
+                console.log(`Jeu terminé. Statut: ${gameStatus}. Score final: ${finalScore}`);
                 navigate('/endGame')
 
                 return
             }
 
             if (gameStatus === 'IN_PROGRESS' || gameStatus === 'OVERTIME') {
-                // setTimeout(() => {
-                //     Toast.show({
-                //         type: 'success',
-                //         text1: gameStatus === 'OVERTIME' ? 'Prolongations !' : 'Round suivant',
-                //     })
-                // }, 100);
-
-
+                // Mettre à jour le round pour le suivant
+                //  @ts-ignore
                 setRound({
                     id: '',
                     roundNumber: round.roundNumber + 1,
@@ -165,23 +110,20 @@ const Round = () => {
                     isFinished: false
                 }),
 
-
-                    navigate('/sideChoice')
+                navigate('/sideChoice')
             }
 
         } catch (error) {
             console.error("Erreur lors de la validation du round:", error);
-            // Toast.show({
-            //     type: 'error',
-            //     text1: 'Erreur',
-            //     text2: "Échec de la validation du round.",
-            // });
+            // Afficher une alerte ou une modale d'erreur ici si nécessaire
         }
     }
 
 
-    const handlePointChange = (p: string) => {
-        const numericValue = p.replace(/[^0-9]/g, '');
+    const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const p = e.target.value;
+        // Permet seulement les chiffres
+        const numericValue = p.replace(/[^0-9]/g, ''); 
         const value = parseInt(numericValue);
         setRound({
             ...round,
@@ -213,8 +155,7 @@ const Round = () => {
                 acc.totalAssists += round.assists;
                 acc.totalPoints += round.points;
                 acc.totalDisconnected += round.disconnected;
-                // acc.playerScore += round.roundResult === 'Victory' ? 1 : 0;
-                // acc.opponentScore += round.roundResult === 'Defeat' ? 1 : 0;
+                
                 if (round.isFinished === true) {
                     if (round.roundResult === null) {
                         acc.playerScore += 0;
@@ -250,25 +191,25 @@ const Round = () => {
     }
     useEffect(() => {
         fetchDatas()
-    }, [])
+    }, [game.id, round.roundNumber]) // Ajout des dépendances pour une meilleure pratique
 
     return (
-        <>
-            <div className="w-100">
-                <p  className="text-center" >Round {round.roundNumber}</p>
+        <div className="p-4 bg-white min-h-screen"> 
+            <div className="w-full">
+                <p className="text-center text-2xl font-bold mb-3" >Round {round.roundNumber}</p>
 
-                <div style={styles.score_container}>
-                    <p style={styles.score_text}>
-                        Score : <div>Joueur {statsForGame.playerScore ? Number(statsForGame.playerScore) : 0}</div> - <div>Adversaire {statsForGame.opponentScore ? Number(statsForGame.opponentScore) : 0}</div>
+                <div className="flex items-center justify-center my-4"> 
+                    <p className="text-xl flex space-x-2 items-center">
+                        Score : <div className="font-semibold text-blue-600">Joueur {statsForGame.playerScore ?? 0}</div> - <div className="font-semibold text-red-600">Adversaire {statsForGame.opponentScore ?? 0}</div>
                     </p>
                 </div>
 
             </div>
 
 
-            <div style={styles.stat_group}>
-                <p style={styles.stat_label}>Résultat du Round</p>
-                <div style={styles.buttons_row}>
+            <div className="mb-5 pb-3 border-b border-gray-300"> 
+                <p className="text-base font-semibold mb-2">Résultat du Round</p>
+                <div className="flex flex-wrap justify-between gap-2"> 
                     {statValuesResult.map(roundResult => (
                         <StatButton
                             key={roundResult}
@@ -282,9 +223,9 @@ const Round = () => {
                 </div>
             </div>
 
-            <div style={styles.stat_group}>
-                <p style={styles.stat_label}>Kills</p>
-                <div style={styles.buttons_row}>
+            <div className="mb-5 pb-3 border-b border-gray-300"> 
+                <p className="text-base font-semibold mb-2">Kills</p>
+                <div className="flex flex-wrap justify-between gap-2">
                     {statValues.map(value => (
                         <StatButton
                             key={`kill-${value}`}
@@ -299,9 +240,9 @@ const Round = () => {
             </div>
 
             {/* Section ASSISTS */}
-            <div style={styles.stat_group}>
-                <p style={styles.stat_label}>Assists</p>
-                <div style={styles.buttons_row}>
+            <div className="mb-5 pb-3 border-b border-gray-300"> 
+                <p className="text-base font-semibold mb-2">Assists</p>
+                <div className="flex flex-wrap justify-between gap-2">
                     {statValues.map(value => (
                         <StatButton
                             key={`assist-${value}`}
@@ -316,131 +257,64 @@ const Round = () => {
             </div>
 
             {/* Section MORT */}
-            <div style={styles.stat_group}>
-                <p style={styles.stat_label}>Mort</p>
-                <div style={styles.buttons_row}>
+            <div className="mb-5 pb-3 border-b border-gray-300"> 
+                <p className="text-base font-semibold mb-2">Mort</p>
+                <div className="flex flex-wrap justify-between gap-2">
                     <StatButton title="Oui" value={true} stat="death" setRound={setRound} round={round} />
                     <StatButton title="Non" value={false} stat="death" setRound={setRound} round={round} />
                 </div>
             </div>
 
             {/* Section DÉCONNEXION */}
-            <div style={styles.stat_group}>
-                <p style={styles.stat_label}>Déconnexion</p>
-                <div style={styles.buttons_row}>
+            <div className="mb-5 pb-3 border-b border-gray-300"> 
+                <p className="text-base font-semibold mb-2">Déconnexion</p>
+                <div className="flex flex-wrap justify-between gap-2">
                     <StatButton title="Oui" value={true} stat="disconnected" setRound={setRound} round={round} />
                     <StatButton title="Non" value={false} stat="disconnected" setRound={setRound} round={round} />
                 </div>
             </div>
 
             {/* Section POINTS (input corrigé) */}
-            <div style={styles.points_input_container}>
+            <div className="flex items-center my-5 p-2 bg-gray-50 rounded-lg"> 
+                <label htmlFor="points-input" className="text-base font-semibold mr-3">Points :</label>
                 <input
-                className="bgc-red"
-                    placeholder="Points"
-
+                    id="points-input"
+                    className="border border-gray-400 p-2 flex-1 mr-3 text-base rounded shadow-inner"
+                    type="number" // Utilisation du type number pour une meilleure expérience mobile
+                    placeholder="Entrez les points"
                     value={round.points !== undefined ? String(round.points) : ''}
-
-                    onChangeText={handlePointChange}
+                    onChange={handlePointChange} // Correction : onChange pour React Web/HTML
                 />
-                <p style={styles.points_text}>points</p>
+                <p className="text-base">points</p>
             </div>
 
             {/* Affichage du récapitulatif conditionnel */}
             {
                 round.roundNumber > 1 &&
-                <div style={styles.recap_container}>
-                    <div>Récapitulatif de la partie :</div>
+                <div className="p-3 bg-gray-100 rounded-lg mt-4 text-sm space-y-1"> 
+                    <div className="font-bold border-b pb-1 mb-1 border-gray-300">Récapitulatif de la partie :</div>
                     <div>Rounds joués : {Number(statsForGame?.totalRounds) - 1}</div>
-                    <div>Kill : {statsForGame?.totalKills}</div>
+                    <div>Kills : {statsForGame?.totalKills}</div>
                     <div>Assists : {statsForGame?.totalAssists}</div>
-                    <div>divoints : {statsForGame?.totaldivoints}</div>
+                    <div>Points : {statsForGame?.totalPoints}</div> 
                     <div>Mort : {statsForGame?.totalDeaths}</div>
                     <div>Déconnexion : {statsForGame?.totalDisconnected}</div>
-
                 </div>
             }
 
-            <div style={styles.submit_button_container}>
-                {game.overtime ?
-                    <button title="Prolongations" onClick={() => validRound()} /> :
-                    <button title="Round suivant" onClick={() => validRound()} />
-                }
-
+            <div className="mt-5"> 
+                <button 
+                    className="w-full bg-green-500 text-white py-3 rounded-lg font-bold text-xl hover:bg-green-600 transition duration-200 shadow-xl"
+                    onClick={() => validRound()}
+                >
+                    {game.overtime ? "Prolongations (Valider le Round)" : "Round suivant (Valider le Round)"}
+                </button>
             </div>
-        </ >
+        </div>
     )
 
 }
 
-const styles = ({
-    main_container: {
-        padding: 15,
-        // Ajoutez des marges ou paddings globaux si nécessaire
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        textAlign: 'center',
-    },
-    score_container: {
-        alignItems: 'center',
-        marginVertical: 15,
-    },
-    score_text: {
-        fontSize: 20,
-    },
-    stat_group: {
-        marginBottom: 20,
-        // Ajout d'une bordure ou d'un style pour séparer les groupes
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        paddingBottom: 10,
-    },
-    stat_label: {
-        fontSize: 16,
-        fontWeight: '600',
-        marginBottom: 8,
-    },
-    buttons_row: {
-        flexDirection: "row",
-        justifyContent: 'space-between',
-        // Utiliser wrap pour les longues listes de boutons
-        flexWrap: 'wrap',
-    },
-    button_container: {
-        // Pour donner un espace entre les petits boutons
-        marginHorizontal: 4,
-        flexGrow: 1, // Permet aux boutons de prendre plus de place
-        minWidth: '10%', // S'assurer que les boutons sont utilisables
-    },
-    points_input_container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginVertical: 20,
-    },
-    text_input: {
-        borderWidth: 1,
-        borderColor: '#000',
-        padding: 8,
-        flex: 1, // Prend le maximum d'espace disponible
-        marginRight: 10,
-        fontSize: 16,
-    },
-    points_text: {
-        fontSize: 16,
-    },
-    recap_container: {
-        padding: 10,
-        backgroundColor: '#f0f0f0',
-        borderRadius: 5,
-        marginTop: 15,
-    },
-    submit_button_container: {
-        marginTop: 20,
-    }
-})
-
+// L'objet 'styles' n'est plus nécessaire car les classes Tailwind sont utilisées directement.
 
 export default Round

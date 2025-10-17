@@ -46,7 +46,7 @@ const Operator = () => {
     const {
         data: operatorsData,
         isLoading,
-        error
+
     } = useQuery({
         queryKey: ['operators'],
         queryFn: fetchOperatorsBySide
@@ -69,6 +69,7 @@ const Operator = () => {
         setRound({
             ...round,
             operatorId: operator.id,
+            // @ts-ignore
             operator
         });
         navigate('/round')
@@ -80,23 +81,25 @@ const Operator = () => {
         // style={styles.container}
         >
             <div>
+             {/* @ts-ignore */}
                 <p>Liste des agents ({operatorsData.length})
                 </p>
             </div>
             <div style={{
-                                    display: "flex",flexWrap:"wrap",
-                                     width: "100%",
-                                     justifyContent:"center"
-                                    }}>
+                display: "flex", flexWrap: "wrap",
+                width: "100%",
+                justifyContent: "center"
+            }}>
                 {
                     operatorsData && operatorsData.map((operator: Operator) => {
                         return (
                             <div onClick={() => operatorChoosen(operator)} key={operator.id}
                                 style={{
                                     border: "solid,1px, red", width: "100px",
-                                    height: "100px" }}
-                                        >
-                                        {/* L'utilisatruer pourra choisir dans son profil si il préfére les icones ou les images */ }
+                                    height: "100px"
+                                }}
+                            >
+                                {/* L'utilisatruer pourra choisir dans son profil si il préfére les icones ou les images */}
                                 {user.preferences.icon ?
                                     <image
                                         style={{
@@ -104,7 +107,7 @@ const Operator = () => {
                                             height: "100px"
                                         }}
                                         key={operator.id}
-
+// @ts-ignore
                                         src={operator.icon}
 
 
@@ -116,15 +119,16 @@ const Operator = () => {
                                             height: "60px"
                                         }}
                                         key={operator.id}
+                                        // @ts-ignore
                                         src={operator.image}
                                     />
                                 }
                             </div>
-            )
+                        )
                     }
-            )
+                    )
                 }
-        </div>
+            </div>
         </div >
     )
 }

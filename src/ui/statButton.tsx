@@ -1,3 +1,5 @@
+import type { StatButtonProps } from "../type/statButton";
+
 const StatButton = ({ title, value, stat, setRound, round }: StatButtonProps) => {
 
     const isSelected = round[stat] === value;

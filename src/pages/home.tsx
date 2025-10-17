@@ -13,8 +13,8 @@ import '../styles/home.scss'
 
 
 
-const Home = () => {
-    const { player, setPlayer, setGame } = useGameContext();
+const Home = () => {    
+    const { player, /* setPlayer */ setGame } = useGameContext();
 
 
     // const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL

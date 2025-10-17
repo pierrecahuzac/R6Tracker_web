@@ -19,7 +19,8 @@ const Maps = () => {
 
     const fetchMaps = async () => {
         const response = await axios.get(`${baseAPIURL}/map/getAll`);
-        // Assurez-vous que l'URL est bien présente dans les données renvoyées par l'API
+        console.log(response.data);
+        
         return response.data;
     }
 

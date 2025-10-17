@@ -7,7 +7,7 @@ import { createNewGame } from "../functions/newGame";
 // import { useQuery } from "@tanstack/react-query";
 import { useGameContext } from "../contexts/gameContext";
 
-
+import Logo from "../../public/r6tracker.png";
 import '../styles/home.scss'
 //import Toast from 'react-native-toast-message';
 
@@ -56,38 +56,9 @@ const Home = () => {
             className='home'
         >
 
-            <header style={{
-                position: "fixed", width: '100%', height: "60px", backgroundColor: "#1d1f21", color: "white", top: 0, left: 0
-            }}>
-                <nav style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-                    {player && player.isLoggedIn === true ? (
-                        <div
 
-                            style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
-                            <Link to={`/player/${player.id}`}>
-                                Bienvenue, {player.username}
-                            </Link>
-
-                            <Link to={{
-                                pathname: ` /stats/${player.id}`,
-
-                            }}>
-                                Statistiques du joueur
-                            </Link>
-
-                            <div className="home__buttons">
-                                <button onClick={() => logout(setPlayer)} className="button__logout"  >Déconnexion</button>
-                            </div>
-                            {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
-                        </div>
-                    ) : (
-                        <div className="home__login-signup">
-                            <Link to={`/signin`} className="home__signin">Connexion</Link>
-                            <Link to={`/signup`} className="home__signup">Créer un compte</Link>
-                        </div>
-                    )}
-                </nav>
-            </header>
+            <div className="home__logo"><img src={Logo} alt="r6 tracker logo"
+                className="home__logo-img" /></div>
             {/* <div>
                 <div>
                     <p>Liste des parties en cours</p>
@@ -98,11 +69,17 @@ const Home = () => {
                     <p key={game.id}>{game.id}</p>
                 ))}</div> */}
 
-            <div className="home__buttons">
+            {player.id ? <div className="home__buttons">
+                <div className="home__links" >
+                    <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button> <button  className="button__new-game">Déconnexion</button>
+                </div>
 
+            </div> :
+                <div className="home__links" >
+                    <Link to={`/signin`} className="home__signin">Connexion</Link>
+                    <Link to={`/signup`} className="home__signup">Créer un compte</Link>
+                </div>}
 
-                <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button>
-            </div>
 
         </div>
 

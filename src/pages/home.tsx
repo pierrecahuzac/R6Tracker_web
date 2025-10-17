@@ -55,45 +55,52 @@ const Home = () => {
         <div
             className='home'
         >
-            {/* <Header /> */}
 
-            {player && player.isLoggedIn === true ? (
-                <div style={{ alignItems: "center" }}>
-                    <Link to={`/player/${player.id}`}>
-                        Bienvenue, {player.username}
-                    </Link>
+            <header style={{
+                position: "fixed", width: '100%', height: "60px", backgroundColor: "#1d1f21", color: "white", top: 0, left: 0
+            }}>
+                <nav style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                    {player && player.isLoggedIn === true ? (
+                        <div style={{ alignItems: "center" }} style={{ width: "100%", height: "60px", display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                            <Link to={`/player/${player.id}`}>
+                                Bienvenue, {player.username}
+                            </Link>
 
-                    <Link
-                        to={{ pathname: `/player/${player.id}`, }}
+                            <Link to={{
+                                pathname: ` /stats/${player.id}`,
 
-                    >
-                        Profil
-                    </Link>
-                    <Link to={{
-                        pathname: ` /stats/${player.id}`,
+                            }}>
+                                Statistiques du joueur
+                            </Link>
 
-                    }}>
-                        Stats
-                    </Link>
-                    <div>
-                        <p>Liste des parties en cours</p>
-                        {isLoading && <p>Chargement...</p>}
-                        {error && <p>Erreur de chargement</p>}
-                        {games && games.map((game: { id: string }) => (
-                            <p key={game.id}>{game.id}</p>
-                        ))}
-                    </div>
-                    <button onClick={() => logout(setPlayer)} className="button__logout"  >Déconnexion</button>
+                            <div className="home__buttons">
+                                <button onClick={() => logout(setPlayer)} className="button__logout"  >Déconnexion</button>
+                            </div>
+                            {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
+                        </div>
+                    ) : (
+                        <div className="home__login-signup">
+                            <Link to={`/signin`} className="home__signin">Connexion</Link>
+                            <Link to={`/signup`} className="home__signup">Créer un compte</Link>
+                        </div>
+                    )}
+                </nav>
+            </header>
+            {/* <div>
+                <div>
+                    <p>Liste des parties en cours</p>
+                    {isLoading && <p>Chargement...</p>}
+                    {error && <p>Erreur de chargement</p>}
 
-                    <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button>
-                    {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
-                </div>
-            ) : (
-                <div className="home__login-signup">
-                    <Link to={`/signin`} className="home__signin">Connexion</Link>
-                    <Link to={`/signup`} className="home__signup">Créer un compte</Link>
-                </div>
-            )}
+                </div>{games && games.map((game: { id: string }) => (
+                    <p key={game.id}>{game.id}</p>
+                ))}</div> */}
+
+            <div className="home__buttons">
+
+
+                <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button>
+            </div>
 
         </div>
 

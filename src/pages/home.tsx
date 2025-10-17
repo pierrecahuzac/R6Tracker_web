@@ -65,7 +65,7 @@ const Home = () => {
 
                     <Link
                         to={{ pathname: `/player/${player.id}`, }}
-                       
+
                     >
                         Profil
                     </Link>
@@ -85,11 +85,14 @@ const Home = () => {
                     </div>
                     <button color="#841584" onClick={() => logout(setPlayer)}  >Déconnexion</button>
 
-                    <button  onClick={() => createNewGame(player, setGame, navigate)}  >Nouvelle partie</button>
+                    <button onClick={() => createNewGame(player, setGame, navigate)}  >Nouvelle partie</button>
                     {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
                 </div>
             ) : (
-                <Link to={`/signin`} className="home__login">Connexion</Link>
+                <div className="home__login-signup">
+                    <Link to={`/signin`} className="home__signin">Connexion</Link>
+                    <Link to={`/signup`} className="home__signup">Créer un compte</Link>
+                </div>
             )}
 
         </div>

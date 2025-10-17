@@ -12,10 +12,12 @@ import SideChoice from './pages/sideChoice'
 import Round from './pages/round'
 
 import './styles/App.css'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/newGame" element={<NewGame />} />

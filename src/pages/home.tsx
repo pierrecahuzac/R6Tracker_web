@@ -2,12 +2,12 @@
 import { Link, useNavigate } from "react-router-dom";
 
 // import axios from "axios";
-import { logout } from "../functions/player";
+//import { logout } from "../functions/player";
 import { createNewGame } from "../functions/newGame";
 // import { useQuery } from "@tanstack/react-query";
 import { useGameContext } from "../contexts/gameContext";
 
-import Logo from "../../public/r6tracker.png";
+import Logo from "/r6tracker.png";
 import '../styles/home.scss'
 //import Toast from 'react-native-toast-message';
 
@@ -50,16 +50,15 @@ const Home = () => {
 
     //   }, [])
     const navigate = useNavigate()
-    return (
 
+    return (
         <div
             className='home'
         >
-
-
-            <div className="home__logo"><img src={Logo} alt="r6 tracker logo"
-                className="home__logo-img" /></div>
-            {/* <div>
+            <div className="home__container">
+                <div className="home__logo"><img src={Logo} alt="r6 tracker logo"
+                    className="home__logo-img" /></div>
+                {/* <div>
                 <div>
                     <p>Liste des parties en cours</p>
                     {isLoading && <p>Chargement...</p>}
@@ -69,18 +68,18 @@ const Home = () => {
                     <p key={game.id}>{game.id}</p>
                 ))}</div> */}
 
-            {player.id ? <div className="home__buttons">
-                <div className="home__links" >
-                    <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button> <button  className="button__new-game">Déconnexion</button>
-                </div>
+                {player.id ? <div className="home__buttons">
+                    <div className="home__links" >
+                        <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button> <button className="button__new-game">Déconnexion</button>
+                    </div>
 
-            </div> :
-                <div className="home__links" >
-                    <Link to={`/signin`} className="home__signin">Connexion</Link>
-                    <Link to={`/signup`} className="home__signup">Créer un compte</Link>
-                </div>}
+                </div> :
+                    <div className="home__links" >
+                        <Link to={`/signin`} className="home__signin">Connexion</Link>
 
-
+                        <Link to={`/signup`} className="home__signup">Créer un compte</Link>
+                    </div>}
+            </div>
         </div>
 
     );

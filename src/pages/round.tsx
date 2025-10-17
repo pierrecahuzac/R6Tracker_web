@@ -1,57 +1,18 @@
-import { useGameContext } from "../contexts/gameContext";
-import axios from "axios";
-
+import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import React from "react"; // Ajout de l'import React si ce n'est pas déjà dans le contexte
+import axios from "axios";
 
-// --- Types pour la réutilisation des boutons ---
-type StatKey = 'kills' | 'assists' | 'death' | 'disconnected' | 'roundResult';
+import { useGameContext } from "../contexts/gameContext";
 
-interface StatButtonProps {
-    title: string;
-    value: number | boolean | string;
-    stat: StatKey;
-    setRound: (newRound: any) => void;
-    className: string
-    round: any; // Idéalement, utilisez le type de 'round' ici
-}
-
-
-const StatButton = ({ title, value, stat, setRound, round }: StatButtonProps) => {
-
-    const isSelected = round[stat] === value;
-
-
-    const baseClasses = "button__result";
-
-
-    const selectedClasses = "button__selected";
-    const defaultClasses = "button__result-default";
-
-    return (
-        <div >
-            <button
-                className={`${baseClasses} ${isSelected ? selectedClasses : defaultClasses}`}
-                onClick={() => {
-                    setRound({
-                        ...round,
-                        [stat]: value
-                    });
-                }}
-            >
-                {title}
-            </button>
-        </div>
-    );
-};
+import StatButton from "../ui/statButton";
+import useToast from "../hooks/useToast";
 
 import '../styles/round.scss'
 
 const Round = () => {
     const { round, setRound, game } = useGameContext()
-
-
+    const { onError } = useToast()
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
     const statValues = [0, 1, 2, 3, 4, 5];
@@ -70,7 +31,6 @@ const Round = () => {
 
     const navigate = useNavigate()
 
-    // Fonction validRound inchangée (dépend de axios et des API)
     const validRound = async () => {
         try {
             const response = await axios.put(`${baseAPIURL}/round/update/${round.id}`, {
@@ -84,7 +44,6 @@ const Round = () => {
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
                 console.log(('je suis là'));
 
-                // Normalement ici il y aurait une alerte ou une modale (car Toast n'est pas importé et alert() est interdit)
                 console.log(`Jeu terminé. Statut: ${gameStatus}. Score final: ${finalScore}`);
                 navigate('/endGame')
 
@@ -92,7 +51,6 @@ const Round = () => {
             }
 
             if (gameStatus === 'IN_PROGRESS' || gameStatus === 'OVERTIME') {
-                // Mettre à jour le round pour le suivant
                 //  @ts-ignore
                 setRound({
                     id: '',
@@ -114,15 +72,15 @@ const Round = () => {
             }
 
         } catch (error) {
-            console.error("Erreur lors de la validation du round:", error);
-            // Afficher une alerte ou une modale d'erreur ici si nécessaire
+            console.error();
+            onError(`Erreur lors de la validation du round: ${error}`)
         }
     }
 
 
     const handlePointChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const inputPoints = e.target.value;    
-        const numericValue = Number(inputPoints);     
+        const inputPoints = e.target.value;
+        const numericValue = Number(inputPoints);
         setRound({
             ...round,
             points: isNaN(numericValue) ? 0 : numericValue
@@ -193,125 +151,127 @@ const Round = () => {
 
     return (
         <div className="round">
-            <div className="round__stats">
-                <h1 className="" >Round {round.roundNumber}</h1>
-                <div className='round__game-stats'>
-                    Score : <span className="">Joueur {statsForGame.playerScore ?? 0}</span> - <span className="">Adversaire {statsForGame.opponentScore ?? 0}</span>
+            <div className="round__container">
+                <div className="round__stats">
+                    <h1 className="" >Round {round.roundNumber}</h1>
+                    <div className='round__game-stats'>
+                        Score : <span className="">Joueur {statsForGame.playerScore ?? 0}</span> - <span className="">Adversaire {statsForGame.opponentScore ?? 0}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div >
-                <h2 className="">Résultat du Round</h2>
-                <div className="buttons__list">
-                    {statValuesResult.map(roundResult => (
-                        <StatButton
-                            key={roundResult}
-                            title={roundResult}
-                            value={roundResult}
-                            stat="roundResult"
-                            setRound={setRound}
-                            round={round}
-                            className="button__result"
-                        />
-                    ))}
+                <div className="round__side">
+                    <h2 className="">Résultat du Round</h2>
+                    <div className="buttons__list">
+                        {statValuesResult.map(roundResult => (
+                            <StatButton
+                                key={roundResult}
+                                title={roundResult}
+                                value={roundResult}
+                                stat="roundResult"
+                                setRound={setRound}
+                                round={round}
+                                className="button__result"
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            <div className="buttons__kills">
-                <p className="">Kills</p>
-                <div className="buttons__list">
-                    {statValues.map(value => (
-                        <StatButton
-                            key={`kill-${value}`}
-                            title={String(value)}
-                            value={value}
-                            stat="kills"
-                            setRound={setRound}
-                            round={round}
-                            className="round__kills"
-                        />
-                    ))}
+                <div className="buttons__kills">
+                    <p className="">Kills</p>
+                    <div className="buttons__list">
+                        {statValues.map(value => (
+                            <StatButton
+                                key={`kill-${value}`}
+                                title={String(value)}
+                                value={value}
+                                stat="kills"
+                                setRound={setRound}
+                                round={round}
+                                className="round__kills"
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* Section ASSISTS */}
-            <div className="buttons__assists">
-                <p className="">Assists</p>
-                <div className="buttons__list">
-                    {statValues.map(value => (
-                        <StatButton
-                            key={`assist-${value}`}
-                            title={String(value)}
-                            value={value}
-                            stat="assists"
-                            setRound={setRound}
-                            round={round}
-                            className="round__assists"
-                        />
-                    ))}
+                {/* Section ASSISTS */}
+                <div className="buttons__assists">
+                    <p className="">Assists</p>
+                    <div className="buttons__list">
+                        {statValues.map(value => (
+                            <StatButton
+                                key={`assist-${value}`}
+                                title={String(value)}
+                                value={value}
+                                stat="assists"
+                                setRound={setRound}
+                                round={round}
+                                className="round__assists"
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
 
-            {/* Section MORT */}
-            <div >
-                <p className="">Mort</p>
-                <div className="buttons__list">
-                    <StatButton title="Oui" className="round__death" value={true} stat="death" setRound={setRound} round={round} />
-                    <StatButton title="Non" className="round__death" value={false} stat="death" setRound={setRound} round={round} />
+                {/* Section MORT */}
+                <div >
+                    <p className="">Mort</p>
+                    <div className="buttons__list">
+                        <StatButton title="Oui" className="round__death" value={true} stat="death" setRound={setRound} round={round} />
+                        <StatButton title="Non" className="round__death" value={false} stat="death" setRound={setRound} round={round} />
+                    </div>
                 </div>
-            </div>
 
-            {/* Section DÉCONNEXION */}
-            <div >
-                <p className="">Déconnexion</p>
-                <div className="buttons__list">
-                    <StatButton title="Oui" value={true} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
-                    <StatButton title="Non" value={false} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
+                {/* Section DÉCONNEXION */}
+                <div >
+                    <p className="">Déconnexion</p>
+                    <div className="buttons__list">
+                        <StatButton title="Oui" value={true} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
+                        <StatButton title="Non" value={false} className="round__disconnected" stat="disconnected" setRound={setRound} round={round} />
+                    </div>
                 </div>
-            </div>
 
-            {/* Section POINTS (input corrigé) */}
-            <div >
-                <label htmlFor="points-input" className="">Points :</label>
-                <input
-                    className="round__input-points"
-                    id="points-input"
+                {/* Section POINTS (input corrigé) */}
+                <div className="round__points">
+                    <label htmlFor="points-input" className="">Points :</label>
+                    <input
+                        className="round__input-points"
+                        id="points-input"
 
-                    type="number" 
-                    placeholder="Entrez les points"
-                    value={round.points !== undefined ? String(round.points) : ''}
-                    onChange={handlePointChange} 
-                />
-                <p className="round__score-points">points</p>
-            </div>
-
-            {/* Affichage du récapitulatif conditionnel */}
-            {
-                round.roundNumber > 1 &&
-                <div className="p-3 bg-gray-100 rounded-lg mt-4 text-sm space-y-1">
-                    <div className="font-bold border-b pb-1 mb-1 border-gray-300">Récapitulatif de la partie :</div>
-                    <div>Rounds joués : {Number(statsForGame?.totalRounds) - 1}</div>
-                    <div>Kills : {statsForGame?.totalKills}</div>
-                    <div>Assists : {statsForGame?.totalAssists}</div>
-                    <div>Points : {statsForGame?.totalPoints}</div>
-                    <div>Mort : {statsForGame?.totalDeaths}</div>
-                    <div>Déconnexion : {statsForGame?.totalDisconnected}</div>
+                        type="number"
+                        placeholder="Entrez les points"
+                        value={round.points !== undefined ? String(round.points) : ''}
+                        onChange={handlePointChange}
+                    />
+                    <p className="round__score-points">points</p>
                 </div>
-            }
 
-            <div className="">
-                <button
-                    className=""
-                    onClick={() => validRound()}
-                >
-                    {game.overtime ? "Prolongations (Valider le Round)" : "Round suivant (Valider le Round)"}
-                </button>
+                {/* Affichage du récapitulatif conditionnel */}
+                {
+                    round.roundNumber > 1 &&
+                    <div className="">
+                        <div className="">Récapitulatif de la partie :</div>
+                        <div>Rounds joués : {Number(statsForGame?.totalRounds) - 1}</div>
+                        <div>Kills : {statsForGame?.totalKills}</div>
+                        <div>Assists : {statsForGame?.totalAssists}</div>
+                        <div>Points : {statsForGame?.totalPoints}</div>
+                        <div>Mort : {statsForGame?.totalDeaths}</div>
+                        <div>Déconnexion : {statsForGame?.totalDisconnected}</div>
+                    </div>
+                }
+
+                <div className="">
+                    <button
+                        className="button__valid-round"
+                        onClick={() => validRound()}
+                    >
+                        {game.overtime ? "Prolongations" : "Round suivant "}
+                    </button>
+                </div>
             </div>
         </div>
+
     )
 
 }
 
-// L'objet 'styles' n'est plus nécessaire car les classes Tailwind sont utilisées directement.
 
 export default Round

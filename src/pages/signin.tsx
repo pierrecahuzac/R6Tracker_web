@@ -75,6 +75,7 @@ const Signin = () => {
 
         {/* CHAMP EMAIL */}
         <input
+        className="input__email"
           placeholder="Email"
           name="email"
           value={login.email}
@@ -86,6 +87,7 @@ const Signin = () => {
 
         {/* CHAMP MOT DE PASSE */}
         <input
+         className="input__password"
           placeholder="Mot de passe"
           name="password"
           value={login.password}
@@ -96,7 +98,7 @@ const Signin = () => {
 
         {/* BOUTON de soumission */}
 
-        <button type="submit" className="button" >
+        <button type="submit" className="button__submit" >
           Se connecter
         </button>
 
@@ -104,9 +106,9 @@ const Signin = () => {
 
 
       <>
-        <Link to="/signup" >Créer un compte?
+        <Link to="/signup" className="link__signup">Créer un compte?
         </Link>
-        <Link to="/forgotPassword">Mot de passe oublié?
+        <Link to="/forgotPassword"  className="link__signin">Mot de passe oublié?
         </Link></>
 
 

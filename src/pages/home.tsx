@@ -83,9 +83,9 @@ const Home = () => {
                             <p key={game.id}>{game.id}</p>
                         ))}
                     </div>
-                    <button color="#841584" onClick={() => logout(setPlayer)}  >Déconnexion</button>
+                    <button onClick={() => logout(setPlayer)} className="button__logout"  >Déconnexion</button>
 
-                    <button onClick={() => createNewGame(player, setGame, navigate)}  >Nouvelle partie</button>
+                    <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">Nouvelle partie</button>
                     {/* <Link to={`/newGame`} style={{ marginTop: 20 }}>Nouvelle partie</Link> */}
                 </div>
             ) : (

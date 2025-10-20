@@ -52,7 +52,8 @@ const Home = () => {
         >
             <div className="home__container">
                 <div className="home__logo"><img src={Logo} alt="r6 tracker logo"
-                    className="home__logo-img" /></div>
+                    className="home__logo-img" />
+                </div>
                 {/* <div>
                     <div>
                         <p style={{ textAlign: "center" }}>Liste des parties en cours</p>
@@ -66,8 +67,8 @@ const Home = () => {
 
                 {player.id ? <div className="home__buttons">
                     <div className="home__links" >
-                        <Link to={`/#`} className="button__new-game">{player.username}</Link>
-                        <Link to={`/stats`} className="button__new-game">Statistiques</Link>
+                        <Link to={`/player/${player.id}`} className="button__new-game">{player.username}</Link>
+                        <Link to={`/stats/${player.id}`} className="button__new-game">Statistiques</Link>
                         <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">{player.language === "Fr" ? "Nouvelle partie" : "New game"}</button> <button className="button__new-game">{player.language === "Fr" ? "Déconnexion" : "Logout"}</button>
                     </div>
 

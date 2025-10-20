@@ -15,6 +15,7 @@ import { ToastContainer } from 'react-toastify'
 import EndGame from './pages/endGame'
 
 import './styles/App.css'
+import Player from './pages/player'
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
         <Route path="/round" element={<Round />} />
         <Route path="/password-forgot" element={<PasswordForgot />} />
         <Route path="/end-game" element={<EndGame />} />
+        <Route path="/player/:playerId" element={<Player />} />
       </Routes>
 
     </>

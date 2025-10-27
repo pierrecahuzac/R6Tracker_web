@@ -1,24 +1,64 @@
-import React from "react";
+import axios from "axios";
+import { Navigate } from "react-router";
 
-
-
-export const logout = async (setPlayer: React.SetStateAction<any>) => {
-    setPlayer({
-        id: "",
-        username: "",
-        email: "",
-    });
+const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
+export const logout = async (
+    //@ts-ignore
+    player,
+    //@ts-ignore
+    setPlayer,
+    //@ts-ignore
+    navigate
+) => {
     try {
-        // await AsyncStorage.multiRemove([
-        //     "playerId",
-        //     "username",
-        //     "email",
-        //     "isLoggedIn",
-        // ]);
+        const response = await axios.get(`${baseAPIURL}/player/logout/${player.id}`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response);
+        if (response.status === 200) {
+            setPlayer({
+                id: "",
+                username: "",
+                email: "",
+            })
+            navigate('/')
+        }
+
+
     } catch (e) {
-        console.error("Erreur AsyncStorage:", e);
+
     }
-    // navigate("./");
+
 };
 
+export const fetchUser = async (setPlayer: () => {}) => {
+    try {
+        const response = await axios.get(`${baseAPIURL}/auth/me`, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.status === 200 && response.data.message === "player connected") {
+            //@ts-ignore
+            setPlayer({
+                id: response.data.playerId,
+                username: response.data.username,
+                isLoggedIn: true,
+            })
+            return
+        }
+
+    } catch (error) {
+        //@ts-ignore
+        setPlayer({ id: null, username: null, isLoggedIn: false });
+        throw error;
+
+
+    }
+}
 

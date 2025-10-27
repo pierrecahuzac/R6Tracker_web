@@ -16,6 +16,7 @@ import useToast from "../hooks/useToast";
 
 
 import '../styles/home.scss'
+import { logout } from "../functions/player";
 
 const Home = () => {
     const { player, setPlayer, setGame } = useGameContext();
@@ -45,7 +46,14 @@ const Home = () => {
     }, [])
 
     const navigate = useNavigate()
+    const handleLogoutPlayer = () => {
+        try {
+            logout(player, setPlayer, navigate)
+        } catch (error) {
+            console.log(error);
 
+        }
+    }
     return (
         <div
             className='home'
@@ -69,7 +77,8 @@ const Home = () => {
                     <div className="home__links" >
                         <Link to={`/player/${player.id}`} className="button__new-game">{player.username}</Link>
                         <Link to={`/stats/${player.id}`} className="button__new-game">Statistiques</Link>
-                        <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">{player.language === "Fr" ? "Nouvelle partie" : "New game"}</button> <button className="button__new-game">{player.language === "Fr" ? "Déconnexion" : "Logout"}</button>
+                        <button onClick={() => createNewGame(player, setGame, navigate)} className="button__new-game">{player.language === "Fr" ? "Nouvelle partie" : "New game"}</button>
+                        <button className="button__new-game" onClick={handleLogoutPlayer}>{player.language === "Fr" ? "Déconnexion" : "Logout"}</button>
                     </div>
 
                 </div> :

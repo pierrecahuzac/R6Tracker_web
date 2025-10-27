@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import { useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ import useToast from "../hooks/useToast";
 
 
 const Signin = () => {
-  const { setPlayer } = useGameContext();
+  const { player, setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
@@ -20,7 +20,7 @@ const Signin = () => {
   });
   const {
     onError,
-    } = useToast()
+  } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -43,14 +43,20 @@ const Signin = () => {
       const response = await axios.post(`${baseAPIURL}/player/login`, {
         email: login.email,
         password: login.password,
+
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       console.log(response);
 
       const playerFromResponse = response.data.player || response.data;
       console.log(playerFromResponse);
-
+      
       const fullPlayerObject = {
-        id: playerFromResponse.id,
+        id: playerFromResponse.playerId,
         username: playerFromResponse.username,
         email: playerFromResponse.email,
         isLoggedIn: true,

@@ -4,10 +4,17 @@ import { useGameContext } from "../contexts/gameContext";
 
 const Stats = () => {
     const { player } = useGameContext();
+ 
+    
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
     const getAllPlayerGames = async () => {
         try {
-            const response = await axios.get(`${baseAPIURL}/game/findGamesByPlayerId/${player.id}`);
+            const response = await axios.get(`${baseAPIURL}/game/findGamesByPlayerId/${player.id}`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
             console.log(response.data);
         } catch (error) {
             console.log(error);

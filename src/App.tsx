@@ -16,8 +16,21 @@ import EndGame from './pages/endGame'
 
 import './styles/App.css'
 import Player from './pages/player'
+import { useEffect } from 'react'
+
+import { useGameContext } from './contexts/gameContext'
+import { fetchUser } from './functions/player'
+
+
+
 
 function App() {
+  const { setPlayer } = useGameContext()
+  
+  useEffect(() => {
+    fetchUser(setPlayer)
+  }, [])
+
   return (
     <>
       <ToastContainer />
@@ -27,7 +40,7 @@ function App() {
         {/* <Route path="/profil/:playerId" element={<NewGame />} /> */}
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/stats" element={<Stats />} />
+        <Route path="/stats/:playerId" element={<Stats />} />
         <Route path="/maps" element={<Maps />} />
         <Route path="/operator" element={<Operator />} />
         <Route path="/operator" element={<Operator />} />

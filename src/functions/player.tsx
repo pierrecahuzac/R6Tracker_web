@@ -10,10 +10,9 @@ export const logout = async (
     navigate
 ) => {
     try {
-        const nodeEnv = import.meta.env.NODE_ENV;
-        console.log(nodeEnv);
+        const isProd = import.meta.env.PROD;
         
-        if (nodeEnv === "production") {
+        if (isProd) {
             const response = await axios.post(`${baseAPIURL}/player/logout`, {
                 withCredentials: true,
                 headers: {

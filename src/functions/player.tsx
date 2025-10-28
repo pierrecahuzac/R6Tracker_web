@@ -27,6 +27,7 @@ export const logout = async (
                 })
                 navigate('/')
             }
+            return 
         }
         const response = await axios.get(`${baseAPIURL}/player/logout`, {
             withCredentials: true,

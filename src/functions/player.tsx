@@ -11,13 +11,13 @@ export const logout = async (
     navigate
 ) => {
     try {
-        const response = await axios.get(`${baseAPIURL}/player/logout/${player.id}`, {
+        const response = await axios.get(`${baseAPIURL}/player/logout`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response);
+
         if (response.status === 200) {
             setPlayer({
                 id: "",

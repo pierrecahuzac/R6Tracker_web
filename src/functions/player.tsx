@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 export const logout = async (
     //@ts-ignore
@@ -11,13 +10,30 @@ export const logout = async (
     navigate
 ) => {
     try {
+        const { NODE_ENV } = import.meta.env;
+
+        if (NODE_ENV === "production") {
+            const response = await axios.post(`${baseAPIURL}/player/logout`, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 200) {
+                setPlayer({
+                    id: "",
+                    username: "",
+                    email: "",
+                })
+                navigate('/')
+            }
+        }
         const response = await axios.get(`${baseAPIURL}/player/logout`, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-
         if (response.status === 200) {
             setPlayer({
                 id: "",
@@ -29,12 +45,11 @@ export const logout = async (
 
 
     } catch (e) {
-
+        console.log(e);
     }
-
 };
 
-export const fetchUser = async (setPlayer:any) => {
+export const fetchUser = async (setPlayer: any) => {
     try {
         const response = await axios.get(`${baseAPIURL}/auth/me`, {
             withCredentials: true,

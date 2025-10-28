@@ -36,7 +36,8 @@ const Round = () => {
             const response = await axios.put(`${baseAPIURL}/round/update/${round.id}`, {
                 round,
                 isFinished: true
-            })
+            }, {
+                withCredentials:true})
             const { gameStatus } = response.data;
 
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
@@ -80,7 +81,8 @@ const Round = () => {
 
     const getAllRoundsInGame = async () => {
         try {
-            const response = await axios.get(`${baseAPIURL}/round/${game.id}`)
+            const response = await axios.get(`${baseAPIURL}/round/${game.id}`, {
+                withCredentials:true})
             console.log('getAllRoundsInGame', response.data.result);
             const initialStats = {
                 totalKills: 0,

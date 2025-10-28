@@ -22,22 +22,7 @@ const Home = () => {
     const { player, setPlayer, setGame } = useGameContext();
     const { onSuccess } = useToast()
 
-    // const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
-
-    // const fetchGames = async () => {
-    //     try {
-    //         const response = await axios.get(`${baseAPIURL}/game/findAll`);
-    //         return response.data;
-    //     } catch (error) {
-    //         console.log(error);
-
-    //     }
-    // }
-    // const { data: games, isLoading, error } = useQuery({
-    //     queryKey: ['games'],
-    //     queryFn: fetchGames,
-    //     enabled: player.isLoggedIn
-    // })
+  
 
     useEffect(() => {
         if (player.username) {
@@ -62,16 +47,7 @@ const Home = () => {
                 <div className="home__logo"><img src={Logo} alt="r6 tracker logo"
                     className="home__logo-img" />
                 </div>
-                {/* <div>
-                    <div>
-                        <p style={{ textAlign: "center" }}>Liste des parties en cours</p>
-                        {isLoading && <p>Chargement...</p>}
-                        {error && <p>Erreur de chargement</p>}
-
-                    </div>{games && games.map((game: { id: string }) => (
-                        <p key={game.id}>{game.id}</p>
-                    ))}
-                </div> */}
+               
 
                 {player.id ? <div className="home__buttons">
                     <div className="home__links" >

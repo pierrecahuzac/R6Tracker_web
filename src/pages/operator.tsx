@@ -31,7 +31,8 @@ const Operator = () => {
 
     const fetchOperatorsBySide = async () => {
         try {
-            const response = await axios.get(`${baseAPIURL}/operator/getAllOperatorsBySide/${roundSide}`);
+            const response = await axios.get(`${baseAPIURL}/operator/getAllOperatorsBySide/${roundSide}`, {
+                withCredentials:true});
             console.log(response.data);
             if (Array.isArray(response.data)) {
 

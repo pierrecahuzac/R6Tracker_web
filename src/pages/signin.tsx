@@ -54,7 +54,7 @@ const Signin = () => {
 
       const playerFromResponse = response.data.player || response.data;
       console.log(playerFromResponse);
-      
+
       const fullPlayerObject = {
         id: playerFromResponse.playerId,
         username: playerFromResponse.username,
@@ -87,8 +87,10 @@ const Signin = () => {
 
       >
 
-        {/* CHAMP EMAIL */}
+
         <input
+          data-aos="fade-right"
+          data-aos-delay="200"
           className="input__email"
           placeholder="Email"
           name="email"
@@ -99,8 +101,10 @@ const Signin = () => {
 
         />
 
-        {/* CHAMP MOT DE PASSE */}
+   
         <input
+          data-aos="fade-right"
+          data-aos-delay="100"
           className="input__password"
           placeholder="Mot de passe"
           name="password"
@@ -110,9 +114,9 @@ const Signin = () => {
 
         />
 
-        {/* BOUTON de soumission */}
+   
 
-        <button type="submit" className="button__submit" >
+        <button type="submit" className="button__submit" data-aos="fade-right" data-aos-delay="50">
           Se connecter
         </button>
 

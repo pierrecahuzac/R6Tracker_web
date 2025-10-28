@@ -14,7 +14,6 @@ import PasswordForgot from './pages/passwordForgot'
 import { ToastContainer } from 'react-toastify'
 import EndGame from './pages/endGame'
 
-import './styles/App.css'
 import Player from './pages/player'
 import { useEffect } from 'react'
 
@@ -22,11 +21,13 @@ import { useGameContext } from './contexts/gameContext'
 import { fetchUser } from './functions/player'
 
 
+import './styles/App.css'
 
 
 function App() {
-  const { setPlayer } = useGameContext()
   
+  const { setPlayer } = useGameContext()
+
   useEffect(() => {
     fetchUser(setPlayer)
   }, [])

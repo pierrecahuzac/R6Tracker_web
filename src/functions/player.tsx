@@ -34,7 +34,7 @@ export const logout = async (
 
 };
 
-export const fetchUser = async (setPlayer: () => {}) => {
+export const fetchUser = async (setPlayer:any) => {
     try {
         const response = await axios.get(`${baseAPIURL}/auth/me`, {
             withCredentials: true,

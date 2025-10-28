@@ -22,6 +22,8 @@ const SideChoice = () => {
                 sideChoosen,
                 playerId: player.id,
                 gameId: game.id
+            }, {
+                withCredentials: true
             })
 
             if (response.status === 201) {
@@ -35,6 +37,8 @@ const SideChoice = () => {
                 await axios.put(`${baseAPIURL}/game/update/${game.id}`, {
                     roundNumber: round.roundNumber + 1,
 
+                }, {
+                    withCredentials: true
                 })
 
                 navigate('/operator')
@@ -44,7 +48,9 @@ const SideChoice = () => {
         }
     }
     const getAllRoundInGame = () => {
-        const response = axios.get(`${baseAPIURL}/round/${game.id}`)
+        const response = axios.get(`${baseAPIURL}/round/${game.id}`, {
+            withCredentials: true
+        })
         console.log(response);
     }
 

@@ -16,7 +16,9 @@ const NewGame = () => {
 
 
     const fetchGameModes = async (): Promise<{ id: string; name: string }[]> => {
-        const response = await axios.get(`${baseAPIURL}/gameMode/getAll`);
+        const response = await axios.get(`${baseAPIURL}/gameMode/getAll`, {
+            withCredentials: true
+        });
         console.log(response.data);
 
         return response.data;
@@ -36,7 +38,8 @@ const NewGame = () => {
                 data: {
                     gameMode: modeName,
                 }
-            });
+            }, {
+                withCredentials:true});
 
             navigate("/maps")
 
@@ -62,7 +65,7 @@ const NewGame = () => {
 
     }
     return (
-        <div className="game-modes" > 
+        <div className="game-modes" >
             <h1>Nouvelle partie</h1>
             {/* <p>{game.id}</p> */}
             {query.isLoading && <p>Chargement...</p>}

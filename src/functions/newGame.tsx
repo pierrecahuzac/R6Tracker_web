@@ -7,12 +7,14 @@ export const createNewGame = async (
     setGame: any,
     navigate: NavigateFunction
 ) => {
-    
+
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
     try {
         const response = await axios.post(`${baseAPIURL}/game/create`, {
             playerId: player.id,
 
+        }, {
+            withCredentials: true
         });
         if (response.status === 201) {
             setGame(response.data);

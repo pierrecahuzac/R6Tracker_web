@@ -105,7 +105,9 @@ const EndGame = () => {
             return;
         }
         try {
-            const response = await axios.get(`${baseAPIURL}/round/${gameId}`);
+            const response = await axios.get(`${baseAPIURL}/round/${gameId}`, {
+                withCredentials:true,
+            });
             const aggregatedStats = aggregateStats(response.data.result);
             setStatsForGame(aggregatedStats);
         } catch (error) {

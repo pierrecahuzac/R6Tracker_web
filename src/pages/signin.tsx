@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import {  useState } from "react";
+import { useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
 import axios from "axios";
 
@@ -11,7 +11,7 @@ import useToast from "../hooks/useToast";
 
 
 const Signin = () => {
-  const { setPlayer } = useGameContext();
+  const {  setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
@@ -20,7 +20,7 @@ const Signin = () => {
   });
   const {
     onError,
-    } = useToast()
+  } = useToast()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 
@@ -43,6 +43,12 @@ const Signin = () => {
       const response = await axios.post(`${baseAPIURL}/player/login`, {
         email: login.email,
         password: login.password,
+
+      }, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       console.log(response);
 
@@ -50,7 +56,7 @@ const Signin = () => {
       console.log(playerFromResponse);
 
       const fullPlayerObject = {
-        id: playerFromResponse.id,
+        id: playerFromResponse.playerId,
         username: playerFromResponse.username,
         email: playerFromResponse.email,
         isLoggedIn: true,
@@ -81,8 +87,10 @@ const Signin = () => {
 
       >
 
-        {/* CHAMP EMAIL */}
+
         <input
+          data-aos="fade-right"
+          data-aos-delay="200"
           className="input__email"
           placeholder="Email"
           name="email"
@@ -93,8 +101,10 @@ const Signin = () => {
 
         />
 
-        {/* CHAMP MOT DE PASSE */}
+   
         <input
+          data-aos="fade-right"
+          data-aos-delay="100"
           className="input__password"
           placeholder="Mot de passe"
           name="password"
@@ -104,9 +114,9 @@ const Signin = () => {
 
         />
 
-        {/* BOUTON de soumission */}
+   
 
-        <button type="submit" className="button__submit" >
+        <button type="submit" className="button__submit" data-aos="fade-right" data-aos-delay="50">
           Se connecter
         </button>
 

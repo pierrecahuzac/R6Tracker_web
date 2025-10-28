@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link,  useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import '../styles/signup.scss'
@@ -14,6 +14,7 @@ const Signup = () => {
     password: '',
     passwordConfirmation: "",
   });
+  const { onSuccess } = useToast()
   const navigate = useNavigate();
   const {
     onError,
@@ -63,16 +64,20 @@ const Signup = () => {
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-
-      console.log("Compte créé avec succès:", response.data);
-
+      })      
+           
+     
+      if (response.status === 201) {
+        onSuccess('Compte crée avec succès');
+        setTimeout(() => {
+          navigate('/signin')
+        }, 2000)
+      }  
     } catch (error) {
-      {/* @ts-ignore */ }
+      //@ts-ignore
       const errorMessage = error.response?.data?.message || "Erreur inconnue lors de l'inscription.";
       console.error("Erreur API:", errorMessage);
-      onError(errorMessage)
-      navigate('/signin')
+      onError(errorMessage)      
     }
   };
 
@@ -90,6 +95,8 @@ const Signup = () => {
 
 
         <input
+        data-aos="fade-right"
+          data-aos-delay="100"
           className="input__email"
           placeholder="Email"
           name="email" // CLÉ CRUCIALE: Doit correspondre à l'état
@@ -97,52 +104,46 @@ const Signup = () => {
           onChange={handleInputChange} // Utilisation du gestionnaire générique
           autoCapitalize="none"
           type="email"
-
         />
-
-
         <input
+        data-aos="fade-right"
+          data-aos-delay="150"
           className="input__username"
           placeholder="Nom d'utilisateur"
           name="username" // CLÉ CRUCIALE: Doit correspondre à l'état
           value={credentials.username}
           onChange={handleInputChange}
-
         />
-
-
         <input
+        data-aos="fade-right"
+          data-aos-delay="200"
           className="input__password"
           placeholder="Mot de passe"
           name="password" // CLÉ CRUCIALE: Doit correspondre à l'état
           value={credentials.password}
           onChange={handleInputChange}
           type="password"
-
         />
-
-
         <input
+        data-aos="fade-right"
+          data-aos-delay="250"
           className="input__password"
           placeholder="Confimation du mot de passe"
           name="passwordConfirmation" // CLÉ CRUCIALE: Doit correspondre à l'état
           value={credentials.passwordConfirmation}
           onChange={handleInputChange}
           type="password"
-
         />
-
         {/* BOUTON de soumission */}
         <div style={{ width: 240, marginBottom: 16 }}>
-          <button type="submit" className="button__submit">
+          <button type="submit" className="button__submit"
+          data-aos="fade-right"
+          data-aos-delay="300">
             Créer mon compte
           </button>
         </div>
-
       </form>
-
       <Link to="/signin">J'ai un compte</Link>
-
       {/* <Toast /> */}
     </div>
   );

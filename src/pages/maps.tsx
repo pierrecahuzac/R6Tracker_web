@@ -3,22 +3,27 @@ import { useGameContext } from "../contexts/gameContext";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
+
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
-// Définition de l'interface pour les données des cartes
+
 interface MapData {
     name: string;
     nameFr: string;
     id: string;
-    url?: string; // Ajout de l'URL pour l'image
+    url?: string;
 }
 
 const Maps = () => {
+
     const { game, setGame, player, setPlayer } = useGameContext()
     const navigate = useNavigate()
 
     const fetchMaps = async () => {
-        const response = await axios.get(`${baseAPIURL}/map/getAll`);
+        const response = await axios.get(`${baseAPIURL}/map/getAll`, {
+            withCredentials: true
+        }
+        );
         console.log(response.data);
 
         return response.data;
@@ -39,6 +44,8 @@ const Maps = () => {
                 data: {
                     map: mapChosen,
                 }
+            }, {
+                withCredentials: true
             })
         } catch (error) {
             console.error("Erreur lors de la mise à jour de la partie:", error);
@@ -63,8 +70,7 @@ const Maps = () => {
         navigate("/sideChoice")
     }
 
-    const playerLanguage = 'Fr'
-    console.log(playerLanguage);
+
 
     return (
         <div style={{ padding: '1rem' }}>
@@ -85,10 +91,8 @@ const Maps = () => {
             {isLoading && <div>Chargement des cartes...</div>}
             {error && <p>Erreur de chargement des cartes.</p>}
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }} data-aos='zoom-in'>
                 {mapsData && mapsData.map((map) => {
-                    // const mapDisplayName = playerLanguage === "Fr" ? map.nameFr : map.name;
-
                     return (
                         <button
                             className="button__map"

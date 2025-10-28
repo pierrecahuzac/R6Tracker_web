@@ -14,9 +14,24 @@ import PasswordForgot from './pages/passwordForgot'
 import { ToastContainer } from 'react-toastify'
 import EndGame from './pages/endGame'
 
+import Player from './pages/player'
+import { useEffect } from 'react'
+
+import { useGameContext } from './contexts/gameContext'
+import { fetchUser } from './functions/player'
+
+
 import './styles/App.css'
 
+
 function App() {
+  
+  const { setPlayer } = useGameContext()
+
+  useEffect(() => {
+    fetchUser(setPlayer)
+  }, [])
+
   return (
     <>
       <ToastContainer />
@@ -26,7 +41,7 @@ function App() {
         {/* <Route path="/profil/:playerId" element={<NewGame />} /> */}
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/stats" element={<Stats />} />
+        <Route path="/stats/:playerId" element={<Stats />} />
         <Route path="/maps" element={<Maps />} />
         <Route path="/operator" element={<Operator />} />
         <Route path="/operator" element={<Operator />} />
@@ -34,6 +49,7 @@ function App() {
         <Route path="/round" element={<Round />} />
         <Route path="/password-forgot" element={<PasswordForgot />} />
         <Route path="/end-game" element={<EndGame />} />
+        <Route path="/player/:playerId" element={<Player />} />
       </Routes>
 
     </>

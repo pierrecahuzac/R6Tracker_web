@@ -11,7 +11,7 @@ import useToast from "../hooks/useToast";
 
 
 const Signin = () => {
-  const { player, setPlayer } = useGameContext();
+  const {  setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({

@@ -50,10 +50,10 @@ const Signin = () => {
           'Content-Type': 'application/json'
         }
       });
-      console.log(response);
+     
 
       const playerFromResponse = response.data.player || response.data;
-      console.log(playerFromResponse);
+
 
       const fullPlayerObject = {
         id: playerFromResponse.playerId,

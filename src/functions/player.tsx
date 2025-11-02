@@ -3,34 +3,13 @@ import axios from "axios";
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 export const logout = async (
     //@ts-ignore
-    player,
-    //@ts-ignore
     setPlayer,
     //@ts-ignore
     navigate
 ) => {
-    try {
-        const { NODE_ENV } = import.meta.env;
-        console.log(NODE_ENV);
-        
-        if (NODE_ENV === "production") {
-            const response = await axios.post(`${baseAPIURL}/player/logout`, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-            if (response.status === 200) {
-                setPlayer({
-                    id: "",
-                    username: "",
-                    email: "",
-                })
-                navigate('/')
-            }
-            return 
-        }
-        const response = await axios.get(`${baseAPIURL}/player/logout`, {
+    try {        // const isProd = import.meta.env.PROD;
+    //         // if (isProd) {
+        const response = await axios.post(`${baseAPIURL}/player/logout`, {}, {
             withCredentials: true,
             headers: {
                 'Content-Type': 'application/json'
@@ -44,6 +23,22 @@ export const logout = async (
             })
             navigate('/')
         }
+        return
+        // }
+        // const response = await axios.get(`${baseAPIURL}/player/logout`, {
+        //     withCredentials: true,
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // });
+        // if (response.status === 200) {
+        //     setPlayer({
+        //         id: "",
+        //         username: "",
+        //         email: "",
+        //     })
+        //     navigate('/')
+        // }
 
 
     } catch (e) {

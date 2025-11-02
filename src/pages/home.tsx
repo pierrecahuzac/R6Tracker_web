@@ -31,9 +31,9 @@ const Home = () => {
     }, [])
 
     const navigate = useNavigate()
-    const handleLogoutPlayer = () => {
+    const handleLogoutPlayer = async () => {
         try {
-            logout(player, setPlayer, navigate)
+            await logout(setPlayer, navigate)
         } catch (error) {
             console.log(error);
 

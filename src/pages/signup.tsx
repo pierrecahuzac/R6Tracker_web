@@ -24,7 +24,7 @@ const Signup = () => {
    * Cette version garantit la compatibilité en accédant toujours à e.target.
    * @param {import('react').ChangeEvent<HTMLInputElement>} e - L'objet événement de changement.
    */
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     // CORRECTION/OPTIMISATION : On assure que l'on extrait le 'name' et le 'value' de l'input
     const { name, value } = e.target;
 
@@ -37,10 +37,8 @@ const Signup = () => {
 
   /**
    * Gestionnaire de la soumission du formulaire
-   * @param {import('react').FormEvent} e - Événement de formulaire
    */
-  {/* @ts-ignore */ }
-  const handleSubmitAccount = async (e) => {
+  const handleSubmitAccount = async (e: React.FormEvent<HTMLFormElement>) => {
     // Empêche le rechargement de la page par défaut (correction pour éviter les fetch involontaires)
     e.preventDefault();
 
@@ -74,8 +72,9 @@ const Signup = () => {
         }, 2000)
       }  
     } catch (error) {
-      //@ts-ignore
-      const errorMessage = error.response?.data?.message || "Erreur inconnue lors de l'inscription.";
+      const errorMessage = axios.isAxiosError(error)
+        ? (error.response?.data as any)?.message || "Erreur inconnue lors de l'inscription."
+        : "Erreur inconnue lors de l'inscription.";
       console.error("Erreur API:", errorMessage);
       onError(errorMessage)      
     }

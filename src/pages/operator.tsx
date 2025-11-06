@@ -3,21 +3,16 @@ import axios from "axios";
 import { useGameContext } from "../contexts/gameContext";
 import { useQuery, } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
-type Operator = {
-    id: string;
-    name: string;
-    icon?: string;
-    image?: string;
-}
+import type { Operator } from "../type/operator";
 
 import '../styles/operator.scss'
+
+
 
 const Operator = () => {
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
     const { round, setRound } = useGameContext()
     const navigate = useNavigate()
-    // @ts-ignore
     const roundSide = round.side
 
     console.log(roundSide);
@@ -43,7 +38,6 @@ const Operator = () => {
             }
         } catch (e) {
             console.error("Erreur de récupération des agents:", e);
-            //       Alert.alert("Erreur de connexion", "Vérifiez la connexion au serveur API.");
         }
     }
 
@@ -69,8 +63,6 @@ const Operator = () => {
         setRound({
             ...round,
             operatorId: operator.id,
-
-            // @ts-ignore
             operator
         });
         navigate('/round')

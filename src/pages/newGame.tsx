@@ -39,7 +39,8 @@ const NewGame = () => {
                     gameMode: modeName,
                 }
             }, {
-                withCredentials:true});
+                withCredentials: true
+            });
 
             navigate("/maps")
 
@@ -71,8 +72,8 @@ const NewGame = () => {
             {query.isLoading && <p>Chargement...</p>}
             {query.isError && <p>Erreur de chargement</p>}
             <p className="game-modes__list">Liste des modes de jeu
-                {query.data && query.data.map((mode) => (
-                    <button className="button__game-mode" key={mode.id ?? mode.name} onClick={() => onChooseGameMode(mode)} >{mode.name}</button>
+                {query.data && query.data.map((mode, index) => (
+                    <button className="button__game-mode" key={mode.id ?? mode.name} data-aos={index === 0 ? 'fade-left' : 'fade-right'}  onClick={() => onChooseGameMode(mode)} >{mode.name}</button>
                 ))}
             </p>
         </div>

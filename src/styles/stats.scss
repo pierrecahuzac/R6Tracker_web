@@ -1,0 +1,86 @@
+.stats {
+  padding: 1rem; // Un padding général pour le composant
+
+  h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  // Style du conteneur de chaque partie
+  > div {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  // Style pour l'image de la carte
+  img {
+    &[alt*="carte"] {
+      // Cible l'image de la carte spécifiquement
+      width: 100%;
+      height: 60px;
+      object-fit: contain;
+    }
+  }
+
+  // Style pour le résultat Victoire/Défaite
+  h4 {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  // Conteneur du tableau des rounds
+  > div > div:has(.stats__score-table) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+
+  /* --- Styles du Tableau des Rounds (BEM) --- */
+  &__score-table {
+    width: 80%;
+    margin: auto;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
+
+  &__score-table_table-head {
+    background-color: #343a40;
+    color: white;
+    border-bottom: 2px solid #ca0b0b;
+
+    th {
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+  }
+
+  &__score-table_table-raw {
+    border-bottom: 1px solid #dee2e6;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  &__score-table_table-d {
+    padding: 0.5rem 0.5rem;
+    text-align: center;
+  }
+
+  &__score-table-icon-operator {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+  }
+  &__map-image {
+    width: 100%;
+    height: auto;
+    & > img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

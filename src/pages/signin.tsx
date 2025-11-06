@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
+import api from "../functions/apiClient";
 import axios from "axios";
+import useToast from "../hooks/useToast";
 
 
-const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
 import '../styles/signin.scss';
-import useToast from "../hooks/useToast";
 
 
 const Signin = () => {
@@ -40,37 +40,30 @@ const Signin = () => {
     }
 
     try {
-      const response = await axios.post(`${baseAPIURL}/player/login`, {
+      const response = await api.post('/player/login', {
         email: login.email,
         password: login.password,
-
-      }, {
-        withCredentials: true,
-        headers: {
-          'Content-Type': 'application/json'
-        }
       });
-     
-
+      console.log(response);
+      
       const playerFromResponse = response.data.player || response.data;
-
 
       const fullPlayerObject = {
         id: playerFromResponse.playerId,
         username: playerFromResponse.username,
         email: playerFromResponse.email,
         isLoggedIn: true,
+        language: 'Fr',
       };
-      // @ts-ignore
       setPlayer(fullPlayerObject);
       console.log("Connexion réussie. Bienvenue:", fullPlayerObject.username);
       navigate('/');
 
     } catch (error) {
-      // @ts-ignore
-      const errorMessage = error.response?.data?.message || "Erreur de connexion.";
-      // @ts-ignore
-      onError(error.response?.data?.message || "Erreur de connexion.")
+      const errorMessage = axios.isAxiosError(error)
+        ? (error.response?.data as any)?.message || 'Erreur de connexion.'
+        : 'Erreur de connexion.';
+      onError(errorMessage)
 
     }
   };

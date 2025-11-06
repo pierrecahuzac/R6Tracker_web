@@ -47,7 +47,6 @@ const Round = () => {
             }
 
             if (gameStatus === 'IN_PROGRESS' || gameStatus === 'OVERTIME') {
-                //  @ts-ignore
                 setRound({
                     id: '',
                     roundNumber: round.roundNumber + 1,
@@ -61,7 +60,8 @@ const Round = () => {
                     assists: 0,
                     disconnected: false,
                     points: 0,
-                    isFinished: false
+                    isFinished: false,
+                    result: "",
                 }),
                     navigate('/sideChoice')
             }

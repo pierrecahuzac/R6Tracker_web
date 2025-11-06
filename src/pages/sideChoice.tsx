@@ -1,7 +1,7 @@
 
 import { useGameContext } from "../contexts/gameContext"
 import axios from "axios"
-import { useEffect } from "react"
+
 import { useNavigate } from "react-router-dom";
 
 import '../styles/side-choice.scss'
@@ -13,7 +13,6 @@ const SideChoice = () => {
     const chooseSide = async (sideChoosen: 'ATTACK' | 'DEFENSE') => {
         setRound({
             ...round,
-            // @ts-ignore
             side: sideChoosen
         });
 
@@ -47,20 +46,21 @@ const SideChoice = () => {
             console.log(error);
         }
     }
-    const getAllRoundInGame = () => {
-        const response = axios.get(`${baseAPIURL}/round/${game.id}`, {
-            withCredentials: true
-        })
-        console.log(response);
-    }
+    // const getAllRoundInGame = async () => {
+    //     const response = axios.get(`${baseAPIURL}/round/${game.id}`, {
+    //         withCredentials: true
+    //     })
+    //     console.log(response);
+    // }
 
-    const fetchRoundsData = async () => {
-        getAllRoundInGame()
-    }
-    useEffect(() => {
-        fetchRoundsData()
+    // const fetchRoundsData = async () => {
+    //     getAllRoundInGame()
+    // }
 
-    }, [])
+    // useEffect(() => {
+    //     fetchRoundsData()
+    // }, [])
+
     return (
         <div className="side-choice">
             <h1 className="side-choice__title">Round: {round.roundNumber}</h1>

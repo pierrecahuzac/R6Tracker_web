@@ -3,21 +3,16 @@ import axios from "axios";
 import { useGameContext } from "../contexts/gameContext";
 import { useQuery, } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-
-type Operator = {
-    id: string;
-    name: string;
-    icon?: string;
-    image?: string;
-}
+import type { OperatorType } from "../type/operator";
 
 import '../styles/operator.scss'
+
+
 
 const Operator = () => {
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
     const { round, setRound } = useGameContext()
     const navigate = useNavigate()
-    // @ts-ignore
     const roundSide = round.side
 
     console.log(roundSide);
@@ -43,14 +38,13 @@ const Operator = () => {
             }
         } catch (e) {
             console.error("Erreur de récupération des agents:", e);
-            //       Alert.alert("Erreur de connexion", "Vérifiez la connexion au serveur API.");
         }
     }
 
     const {
         data: operatorsData,
         isLoading,
-        //error
+        
     } = useQuery({
         queryKey: ['operators'],
         queryFn: fetchOperatorsBySide
@@ -65,12 +59,10 @@ const Operator = () => {
         );
     }
 
-    const operatorChoosen = (operator: Operator) => {
+    const operatorChoosen = (operator: OperatorType) => {
         setRound({
             ...round,
             operatorId: operator.id,
-
-            // @ts-ignore
             operator
         });
         navigate('/round')
@@ -87,7 +79,7 @@ const Operator = () => {
             </div>
             <div className="operator__list">
                 {
-                    operatorsData && operatorsData.map((operator: Operator) => {
+                    operatorsData && operatorsData.map((operator: OperatorType) => {
                         return (
                             <div onClick={() => operatorChoosen(operator)} key={operator.id}
 

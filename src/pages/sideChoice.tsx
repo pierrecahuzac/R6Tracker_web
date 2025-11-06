@@ -1,7 +1,7 @@
 
 import { useGameContext } from "../contexts/gameContext"
 import axios from "axios"
-import { useEffect } from "react"
+
 import { useNavigate } from "react-router-dom";
 
 import '../styles/side-choice.scss'

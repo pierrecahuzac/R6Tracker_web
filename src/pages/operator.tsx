@@ -3,7 +3,7 @@ import axios from "axios";
 import { useGameContext } from "../contexts/gameContext";
 import { useQuery, } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import type { Operator } from "../type/operator";
+import type { OperatorType } from "../type/operator";
 
 import '../styles/operator.scss'
 
@@ -44,7 +44,7 @@ const Operator = () => {
     const {
         data: operatorsData,
         isLoading,
-        //error
+        
     } = useQuery({
         queryKey: ['operators'],
         queryFn: fetchOperatorsBySide
@@ -59,7 +59,7 @@ const Operator = () => {
         );
     }
 
-    const operatorChoosen = (operator: Operator) => {
+    const operatorChoosen = (operator: OperatorType) => {
         setRound({
             ...round,
             operatorId: operator.id,
@@ -79,7 +79,7 @@ const Operator = () => {
             </div>
             <div className="operator__list">
                 {
-                    operatorsData && operatorsData.map((operator: Operator) => {
+                    operatorsData && operatorsData.map((operator: OperatorType) => {
                         return (
                             <div onClick={() => operatorChoosen(operator)} key={operator.id}
 

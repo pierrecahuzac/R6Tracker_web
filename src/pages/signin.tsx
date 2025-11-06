@@ -3,12 +3,11 @@ import { useState } from "react";
 import { useGameContext } from "../contexts/gameContext";
 import api from "../functions/apiClient";
 import axios from "axios";
+import useToast from "../hooks/useToast";
 
 
-const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
 import '../styles/signin.scss';
-import useToast from "../hooks/useToast";
 
 
 const Signin = () => {
@@ -41,17 +40,6 @@ const Signin = () => {
     }
 
     try {
-      // const response = await axios.post(`${baseAPIURL}/player/login`, {
-      //   email: login.email,
-      //   password: login.password,
-
-      // }, {
-      //   withCredentials: true,
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // });
-
       const response = await api.post('/player/login', {
         email: login.email,
         password: login.password,

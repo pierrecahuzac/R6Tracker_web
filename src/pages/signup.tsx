@@ -72,6 +72,8 @@ const Signup = () => {
         }, 2000)
       }  
     } catch (error) {
+      console.log(error);
+      
       const errorMessage = axios.isAxiosError(error)
         ? (error.response?.data as any)?.message || "Erreur inconnue lors de l'inscription."
         : "Erreur inconnue lors de l'inscription.";

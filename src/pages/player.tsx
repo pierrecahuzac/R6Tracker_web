@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { useGameContext } from "../contexts/gameContext";
+import { useGameContext } from "../contexts/gameContext.tsx";
 
 const Player = () => {
     // Récupération des données du joueur
@@ -13,21 +13,12 @@ const Player = () => {
     const [newPassword, setNewPassword] = useState("");
     const [newPasswordConfirmation, setNewPasswordConfirmation] = useState("");
 
-    const submitNewPassword = (event : FormEvent<HTMLFormElement>) => {
-        
+    const submitNewPassword = (event : FormEvent<HTMLFormElement>) => {        
         event.preventDefault(); 
-        
-        // Validation basique (à compléter avec une logique plus robuste)
         if (newPassword !== newPasswordConfirmation) {
             console.error("Les nouveaux mots de passe ne correspondent pas.");
             return;
-        }
-
-        console.log("Tentative de changement de mot de passe...");
-        console.log("Mot de passe actuel:", password);
-        console.log("Nouveau mot de passe:", newPassword);
-        
-     
+        }     
         setPassword("");
         setNewPassword("");
         setNewPasswordConfirmation("");

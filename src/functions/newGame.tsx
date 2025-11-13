@@ -16,10 +16,18 @@ export const createNewGame = async (
         }, {
             withCredentials: true
         });
-        if (response.status === 201) {
-            setGame(response.data);
 
-            navigate("./newGame");
+        localStorage.setItem('gameId', response.data.id)
+        localStorage.setItem('playerId', response.data.playerId)
+        if (response.status === 201) {
+            await axios.post(`${baseAPIURL}/activeGame/create`, {
+                gameId: response.data.id
+            }, {
+                withCredentials: true
+            });
+            localStorage.setItem('gameId', response.data.id)
+            setGame(response.data);
+            navigate("./game-mode-choice");
         }
     } catch (error) {
 

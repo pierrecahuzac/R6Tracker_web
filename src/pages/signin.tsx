@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useGameContext } from "../contexts/gameContext";
+import { useGameContext } from "../contexts/gameContext.tsx";
 import api from "../functions/apiClient";
 import axios from "axios";
 import useToast from "../hooks/useToast";
@@ -11,7 +11,7 @@ import '../styles/signin.scss';
 
 
 const Signin = () => {
-  const {  setPlayer } = useGameContext();
+  const { setPlayer } = useGameContext();
   const navigate = useNavigate();
 
   const [login, setLogin] = useState({
@@ -44,10 +44,7 @@ const Signin = () => {
         email: login.email,
         password: login.password,
       });
-      console.log(response);
-      
       const playerFromResponse = response.data.player || response.data;
-
       const fullPlayerObject = {
         id: playerFromResponse.playerId,
         username: playerFromResponse.username,
@@ -56,15 +53,12 @@ const Signin = () => {
         language: 'Fr',
       };
       setPlayer(fullPlayerObject);
-      console.log("Connexion réussie. Bienvenue:", fullPlayerObject.username);
       navigate('/');
-
     } catch (error) {
       const errorMessage = axios.isAxiosError(error)
         ? (error.response?.data as any)?.message || 'Erreur de connexion.'
         : 'Erreur de connexion.';
       onError(errorMessage)
-
     }
   };
 
@@ -94,7 +88,7 @@ const Signin = () => {
 
         />
 
-   
+
         <input
           data-aos="fade-right"
           data-aos-delay="100"
@@ -107,7 +101,7 @@ const Signin = () => {
 
         />
 
-   
+
 
         <button type="submit" className="button__submit" data-aos="fade-right" data-aos-delay="50">
           Se connecter

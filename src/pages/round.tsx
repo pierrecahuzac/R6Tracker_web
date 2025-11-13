@@ -3,15 +3,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { useGameContext } from "../contexts/gameContext";
+import { useGameContext } from "../contexts/gameContext.tsx";
 
 import StatButton from "../ui/statButton";
 import useToast from "../hooks/useToast";
 
 import '../styles/round.scss'
+import ReturnButton from "../ui/returnButton.tsx";
 
 const Round = () => {
-    const { round, setRound, game } = useGameContext()
+    const { round, setRound, game, setGame } = useGameContext()
     const { onError } = useToast()
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
 
@@ -33,20 +34,37 @@ const Round = () => {
 
     const validRound = async () => {
         try {
-            const response = await axios.put(`${baseAPIURL}/round/update/${round.id}`, {
+            if(round.roundResult === null){
+                onError("Impossible de valider le round sans un résultat valable")
+                return
+            }
+            const roundId = localStorage.getItem("roundId")
+            if (round.roundNumber === 0) {
+                setRound({
+                    ...round,
+                    roundNumber: localStorage.getItem('roundNumber')
+                })
+            }
+            const response = await axios.put(`${baseAPIURL}/round/update/${roundId}`, {
                 round,
                 isFinished: true
             }, {
-                withCredentials:true})
+                withCredentials: true
+            })
             const { gameStatus } = response.data;
 
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
-
                 navigate('/end-game')
                 return
             }
 
             if (gameStatus === 'IN_PROGRESS' || gameStatus === 'OVERTIME') {
+                // on vient mettre à jour game dans le contexte après chaque fin de round
+                const fetchGame = await axios.get(`${baseAPIURL}/game/${game.id}`, {
+                    withCredentials: true
+                })
+                console.log(fetchGame.data.gameById);
+               setGame(fetchGame.data.gameById)
                 setRound({
                     id: '',
                     roundNumber: round.roundNumber + 1,
@@ -63,10 +81,14 @@ const Round = () => {
                     isFinished: false,
                     result: "",
                 }),
+
                     navigate('/sideChoice')
             }
         } catch (error) {
-            onError(`Erreur lors de la validation du round: ${error}`)
+            //@ts-ignore
+            console.log(error);
+            //@ts-ignore
+            // onError(`Erreur lors de la validation du round: ${error.response.data.message}`)
         }
     }
 
@@ -80,10 +102,15 @@ const Round = () => {
     }
 
     const getAllRoundsInGame = async () => {
+        let gameId = game.id;
+        if (!gameId) {
+            gameId = localStorage.getItem("gameId")
+        }
         try {
-            const response = await axios.get(`${baseAPIURL}/round/${game.id}`, {
-                withCredentials:true})
-            console.log('getAllRoundsInGame', response.data.result);
+            const response = await axios.get(`${baseAPIURL}/round/${gameId}`, {
+                withCredentials: true
+            })
+
             const initialStats = {
                 totalKills: 0,
                 totalAssists: 0,
@@ -138,13 +165,15 @@ const Round = () => {
         fetchDatas()
     }, [game.id, round.roundNumber])
 
+
     return (
         <div className="round">
+            <ReturnButton />
             <div className="round__container">
                 <div className="round__stats">
-                    <h1 className="" >Manche {round.roundNumber}</h1>
+                    <h1 className="" >Manche {round.roundNumber === 0 ? localStorage.getItem('roundNumber') : round.roundNumber}</h1>
                     <div className='round__game-stats'>
-                        Score : <span className="">Joueur {statsForGame.playerScore ?? 0}</span> - <span className="">Adversaire {statsForGame.opponentScore ?? 0}</span>
+                        Score : <span className="">Joueur {game.playerScore ?? 0}</span> - <span className="">Adversaire {game.opponentScore ?? 0}</span>
                     </div>
                 </div>
                 <div className="round__side">
@@ -215,7 +244,7 @@ const Round = () => {
                 {/* Section POINTS (input corrigé) */}
                 <div className="round__points">
                     <h4 >Points totalisés</h4>
-                    
+
                     <input
                         className="round__input-points"
                         id="points-input"

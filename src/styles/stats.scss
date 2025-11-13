@@ -39,7 +39,7 @@
 
   /* --- Styles du Tableau des Rounds (BEM) --- */
   &__score-table {
-    width: 80%;
+    width: 100%;
     margin: auto;
     border-collapse: collapse;
     font-size: 0.9rem;
@@ -63,6 +63,9 @@
     border-bottom: 1px solid #dee2e6;
     &:last-child {
       border-bottom: none;
+    }
+    &>td {
+      text-align: center;
     }
   }
   &__score-table_table-d {

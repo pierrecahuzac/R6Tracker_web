@@ -4,6 +4,7 @@ export interface Player {
   email: string;
   isLoggedIn: boolean;
   language: string;
+  activeGameId: string
 }
 
 

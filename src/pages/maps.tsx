@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useGameContext } from "../contexts/gameContext";
+import { useGameContext } from "../contexts/gameContext.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -50,8 +50,12 @@ const Maps = () => {
     }, [mapsData]);
 
     const updateGame = async (mapChosen: string) => {
+        let gameId = game.id
+        if (!gameId) {           
+            gameId = localStorage.getItem("gameId");
+        }
         const response = await axios.put(
-            `${baseAPIURL}/game/update/${game.id}`,
+            `${baseAPIURL}/game/update/${gameId}`,
             {
                 data: {
                     map: mapChosen,

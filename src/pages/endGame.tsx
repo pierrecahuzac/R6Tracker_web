@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 // Importations de l'environnement et des hooks
-import { useGameContext } from "../contexts/gameContext";
+import { useGameContext } from "../contexts/gameContext.tsx";
 import useToast from "../hooks/useToast";
 
 import '../styles/end-game.scss';
@@ -147,12 +147,12 @@ const EndGame = () => {
                 </div>
             )}
 
-            <button
+            {/* <button
                 className="end-game__button"
-                onClick={() => navigate('/newGame')}
+                onClick={() => navigate('/')}
             >
                 Nouvelle partie
-            </button>
+            </button> */}
             <button
                 className="end-game__back-to-home"
                 onClick={() => navigate('/')}

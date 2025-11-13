@@ -20,7 +20,8 @@ export const logout = async (
                 username: "",
                 email: "",
                 isLoggedIn: false,
-                language: 'Fr'
+                language: 'Fr',
+                activeGameId: ''
             })
             navigate('/')
         }
@@ -31,7 +32,9 @@ export const logout = async (
     }
 };
 
-export const fetchUser = async (setPlayer: (value: Player) => void) => {
+export const fetchUser = async (
+    setPlayer: (value: Player) => void
+) => {
     try {
         const response = await axios.get(`${baseAPIURL}/auth/me`, {
             withCredentials: true,
@@ -39,20 +42,21 @@ export const fetchUser = async (setPlayer: (value: Player) => void) => {
                 'Content-Type': 'application/json'
             }
         });
-
         if (response.status === 200 && response.data.message === "player connected") {
             setPlayer({
                 id: response.data.playerId,
                 username: response.data.username,
                 email: "",
                 isLoggedIn: true,
-                language: 'Fr'
+                language: 'Fr',
+                activeGameId: response.data.player.activeGame.gameId
             })
-            return
+            localStorage.setItem('activeGameId', response.data.player.activeGame.id)
+            return response
         }
-
+        return
     } catch (error) {
-        setPlayer({ id: "", username: "", email: "", isLoggedIn: false, language: 'Fr' });
+        setPlayer({ id: "", username: "", email: "", isLoggedIn: false, language: 'Fr', activeGameId: "" });
         throw error;
 
 

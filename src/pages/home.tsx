@@ -60,7 +60,7 @@ const Home = () => {
 
         }
     }
-    const activeGameId = localStorage.getItem('activeGameId')
+    
     return (
         <div
             className='home'

@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import type { OperatorType } from "../type/operator";
 
 import '../styles/operator.scss'
-import useToast from "../hooks/useToast";
+
 
 const Operator = () => {
     const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
     const { round, setRound } = useGameContext()
     const navigate = useNavigate()
-    const { onError } = useToast()
+ 
     const user = {
         preferences: {
             image: false,

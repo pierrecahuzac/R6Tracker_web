@@ -1,13 +1,14 @@
 import { createContext, useContext, useEffect, useState  } from "react";
 import axios from "axios";
 
-import { fetchUser } from "../functions/player";
+import { fetchUser } from "../functions/playerFunctions";
 import type { PlayerData } from "../type/playerData";
 import type { GameData } from "../type/gameData";
 import type { RoundData } from "../type/roundData";
 import type { ScoreData } from "../type/scoreData";
 import type { GameMode } from "../type/gameMode";
 import type { GameContextType } from "../type/gameContext";
+
 
 
 const initialPlayer: PlayerData = {
@@ -97,24 +98,32 @@ export const GameProvider = ({ children }: GameProviderProps) => {
             setLoading(true);
             try {
                 const userFetched: any = await fetchUser(setPlayer);
-                const activeGameId = userFetched?.data?.player?.activeGame?.gameId;
-                if (activeGameId) {
-                    try {
-                        const response = await axios.get(
-                            `${baseAPIURL}/game/${activeGameId}`,
-                            {
-                                withCredentials: true,
-                                headers: {
-                                    "Content-Type": "application/json",
-                                },
-                            }
-                        );                        
-                        setGame(response.data.gameById);
-                    } catch (error) {
-                        console.log("Erreur lors du fetch de la partie active (peut être 404 si inactive):", error);
-                    }
+                console.log(userFetched);
+                setPlayer(userFetched.data.player)
+                 const activeGameId = player.activeGameId
+
+                if (!activeGameId) {
+                    console.log('coucou');
+                    
                 }
+                try {
+                    const response = await axios.get(
+                        `${baseAPIURL}/game/${activeGameId}`,
+                        {
+                            withCredentials: true,
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );        
+                    console.log(response);
+                                    
+                    setGame(response.data.gameById);
+                } catch (error) {
+                    console.log("Erreur lors du fetch de la partie active (peut être 404 si inactive):", error);
+                }              
             } catch (error) {
+                console.log(error);                
                 console.error("Erreur lors de la restauration de la session:", error);
             } finally {
                 setLoading(false);

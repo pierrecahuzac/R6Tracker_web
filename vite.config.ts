@@ -9,6 +9,7 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
+    allowedHosts: ["r6tracker.partagetacollection.eu"],
     port: 5173,
     strictPort: true,
     hmr: {

@@ -6,7 +6,6 @@ import '../styles/signup.scss'
 import useToast from "../hooks/useToast";
 // URL de base de votre API (récupérée de l'environnement Vite)
 const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
-
 const Signup = () => {
   const [credentials, setCredentials] = useState({
     email: '',

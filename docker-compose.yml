@@ -1,5 +1,5 @@
 services:
-  app:
+  app_r6tracker:
     container_name: app_r6tracker
     volumes:
       - ./:/usr/src/app
@@ -12,8 +12,10 @@ services:
     ports:
       - 5175:5173
     networks:
-      - R6Tracker
+      
+      - caddy_jellyfin_network
       
 networks:
-  R6Tracker:
+  
+  caddy_jellyfin_network:
     external: true

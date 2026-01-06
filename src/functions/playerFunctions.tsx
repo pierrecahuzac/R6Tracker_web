@@ -50,8 +50,10 @@ export const fetchUser = async (setPlayer: (value: Player) => void) => {
       setPlayer({
         id: response.data.player.id,
         username: response.data.player.username,
+        email: response.data.player.email ?? "",
+        isLoggedIn: true,
         language: response.data.player.language,
-        activeGameId: response.data.player.activeGameId,
+        activeGameId: response.data.player.activeGameId ?? "",
       });
       localStorage.setItem("playerId", response.data.player.id);
       localStorage.setItem("username", response.data.player.username);

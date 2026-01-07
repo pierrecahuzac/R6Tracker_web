@@ -7,14 +7,15 @@ import { useGameContext } from "../contexts/gameContext.tsx";
 
 import StatButton from "../ui/statButton";
 import useToast from "../hooks/useToast";
-
+import baseURL from "../functions/baseURL.tsx"
 import '../styles/round.scss'
 import ReturnButton from "../ui/returnButton.tsx";
 
 const Round = () => {
     const { round, setRound, game, setGame } = useGameContext()
     const { onError } = useToast()
-    const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL
+
+
 
     const statValues = [0, 1, 2, 3, 4, 5];
     const statValuesResult = ["Victory", "Defeat", "Draw"];
@@ -38,19 +39,22 @@ const Round = () => {
                 onError("Impossible de valider le round sans un résultat valable")
                 return
             }
-            const roundId = localStorage.getItem("roundId")
+            const roundId = round.id
+            // const roundId = localStorage.getItem("roundId")
             if (round.roundNumber === 0) {
                 setRound({
                     ...round,
                     roundNumber: localStorage.getItem('roundNumber')
                 })
             }
-            const response = await axios.put(`${baseAPIURL}/round/update/${roundId}`, {
+            const response = await axios.put(`${baseURL}/round/update/${roundId}`, {
                 round,
                 isFinished: true
             }, {
                 withCredentials: true
             })
+            console.log(response);
+            
             const { gameStatus } = response.data;
 
             if (gameStatus === 'PLAYER_WON' || gameStatus === 'PLAYER_LOST' || gameStatus === 'MATCH_DRAW') {
@@ -59,11 +63,13 @@ const Round = () => {
             }
 
             if (gameStatus === 'IN_PROGRESS' || gameStatus === 'OVERTIME') {
+                const gameId = localStorage.getItem('gameId')
                 // on vient mettre à jour game dans le contexte après chaque fin de round
-                const fetchGame = await axios.get(`${baseAPIURL}/game/${game.id}`, {
+                const fetchGame = await axios.get(`${baseURL}/game/${gameId}`, {
                     withCredentials: true
                 })
-                console.log(fetchGame.data.gameById);
+                console.log(fetchGame);
+                
                setGame(fetchGame.data.gameById)
                 setRound({
                     id: '',
@@ -81,7 +87,6 @@ const Round = () => {
                     isFinished: false,
                     result: "",
                 }),
-
                     navigate('/sideChoice')
             }
         } catch (error) {
@@ -107,7 +112,7 @@ const Round = () => {
             gameId = localStorage.getItem("gameId")
         }
         try {
-            const response = await axios.get(`${baseAPIURL}/round/${gameId}`, {
+            const response = await axios.get(`${baseURL}/round/${gameId}`, {
                 withCredentials: true
             })
 
@@ -161,9 +166,12 @@ const Round = () => {
     const fetchDatas = async () => {
         await getAllRoundsInGame()
     }
+
     useEffect(() => {
+        console.log(game);
+        console.log(game.game);
         fetchDatas()
-    }, [game.id, round.roundNumber])
+    }, [localStorage.getItem("gameId"), round.roundNumber])
 
 
     return (

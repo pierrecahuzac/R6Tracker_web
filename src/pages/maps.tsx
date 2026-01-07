@@ -3,10 +3,10 @@ import { useGameContext } from "../contexts/gameContext.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import baseURL from "../functions/baseURL.tsx"
 import "../styles/maps.scss";
 
-const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
+
 
 interface MapData {
     name: string;
@@ -22,7 +22,7 @@ const Maps = () => {
     const [updateError, setUpdateError] = useState<string | null>(null);
 
     const fetchMaps = async () => {
-        const response = await axios.get(`${baseAPIURL}/map/getAll`, {
+        const response = await axios.get(`${baseURL}/map/getAll`, {
             withCredentials: true
         });
         return response.data;
@@ -50,12 +50,12 @@ const Maps = () => {
     }, [mapsData]);
 
     const updateGame = async (mapChosen: string) => {
-        let gameId = game.id
+        let gameId = game.game.id
         if (!gameId) {           
             gameId = localStorage.getItem("gameId");
         }
         const response = await axios.put(
-            `${baseAPIURL}/game/update/${gameId}`,
+            `${baseURL}/game/update/${gameId}`,
             {
                 data: {
                     map: mapChosen,

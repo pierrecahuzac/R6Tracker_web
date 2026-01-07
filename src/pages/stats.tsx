@@ -4,7 +4,7 @@ import { useGameContext } from "../contexts/gameContext.tsx";
 
 // Assurez-vous que ce chemin est correct pour votre projet
 import { useWindowSize } from "../hooks/useWindowsSize";
-
+import baseURL from "../functions/baseURL.tsx"
 // --- Interfaces TypeScript ---
 interface OperatorData {
     name: string;
@@ -54,13 +54,13 @@ const Stats = () => {
     const { width } = useWindowSize();
     const isLargeScreen = width && width > 720;
 
-    const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
+
 
     const getAllPlayerGames = async () => {
         if (!player.id) return;
         setIsLoading(true);
         try {
-            const response = await axios.get(`${baseAPIURL}/game/findGamesByPlayerId`, {
+            const response = await axios.get(`${baseURL}/game/findGamesByPlayerId`, {
                 withCredentials: true,
                 headers: { 'Content-Type': 'application/json' }
             });            

@@ -4,7 +4,7 @@ import axios from "axios";
 // Importations de l'environnement et des hooks
 import { useGameContext } from "../contexts/gameContext.tsx";
 import useToast from "../hooks/useToast";
-
+import baseURL from "../functions/baseURL.tsx"
 import '../styles/end-game.scss';
 
 // --- Définitions de types pour une meilleure robustesse ---
@@ -105,7 +105,7 @@ const EndGame = () => {
             return;
         }
         try {
-            const response = await axios.get(`${baseAPIURL}/round/${gameId}`, {
+            const response = await axios.get(`${baseURL}/round/${gameId}`, {
                 withCredentials:true,
             });
             const aggregatedStats = aggregateStats(response.data.result);
@@ -147,12 +147,6 @@ const EndGame = () => {
                 </div>
             )}
 
-            {/* <button
-                className="end-game__button"
-                onClick={() => navigate('/')}
-            >
-                Nouvelle partie
-            </button> */}
             <button
                 className="end-game__back-to-home"
                 onClick={() => navigate('/')}

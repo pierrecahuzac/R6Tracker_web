@@ -1,21 +1,18 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),],
+  plugins: [react()],
   server: {
-    host: "0.0.0.0",
-    watch: {
-      usePolling: true
-    },
-    allowedHosts: ["r6tracker.partagetacollection.eu"],
-    port: 5173,
+    host: "0.0.0.0", 
+    port: 5173,     
     strictPort: true,
+    watch: {
+      usePolling: true 
+    },
+    allowedHosts: ["r6tracker.partagetacollection.eu"], 
     hmr: {
-      clientPort: 5175,
-      port: 5173
+      clientPort: 5175, 
     }
-
   }
 })

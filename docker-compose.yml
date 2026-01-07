@@ -1,9 +1,10 @@
 services:
   app_r6tracker:
     container_name: app_r6tracker
+    command: npm run dev -- --host 0.0.0.0 --port 5173
     volumes:
       - ./:/usr/src/app
-      - /usr/src/api/node_modules
+      - /usr/src/app/node_modules
     env_file:
       - .env
     build:
@@ -11,11 +12,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - 5175:5173
-    networks:
-      
+    networks:      
       - caddy_jellyfin_network
+      - R6Tracker_dev_network
+      - R6Tracker_prod_network
       
+
 networks:
-  
+  R6Tracker_dev_network:
+    external: true
+  R6Tracker_prod_network:
+    external: true
   caddy_jellyfin_network:
     external: true

@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { createNewGame } from "../functions/newGame";
@@ -7,16 +7,15 @@ import { useGameContext } from "../contexts/gameContext.tsx";
 import useToast from "../hooks/useToast";
 
 import Logo from "/r6tracker.png";
-import "../styles/home.scss";
 
+import "../styles/home.scss";
 
 const Home = () => {
   const { player, setPlayer, setGame } = useGameContext();
- 
-  
+
   const { onSuccess } = useToast();
 
-    useEffect(() => {
+  useEffect(() => {
     if (player.username) {
       onSuccess(`Bienvenu ${player.username}!`);
     }
@@ -31,6 +30,10 @@ const Home = () => {
     }
   };
 
+  const resumeGame = (gameId: string) => {
+    console.log(gameId);
+    
+  };
   return (
     <div className="home">
       <div className="home__container">
@@ -52,7 +55,16 @@ const Home = () => {
                 className="button__new-game"
               >
                 {player.language === "Fr" ? "Nouvelle partie" : "New game"}
-              </button>             
+              </button>
+              {localStorage.getItem("activeGameId") && (
+                <button
+                //@ts-ignore
+                  onClick={() => resumeGame(localStorage.getItem("gameId"))}
+                  className="button__new-game"
+                >
+                  Reprendre la partie en cours
+                </button>
+              )}
 
               <button className="button__logout" onClick={handleLogoutPlayer}>
                 {player.language === "Fr" ? "Déconnexion" : "Logout"}

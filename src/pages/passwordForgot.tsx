@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useState, type ChangeEvent } from "react";
-
+import baseURL from "../functions/baseURL.tsx"
 
 const PasswordForgot = () => {
-    const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
+    
 
     const [email, setEmail] = useState('')
     const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
@@ -11,8 +11,8 @@ const PasswordForgot = () => {
     }
     const handleSubmit = async () => {
         try {
-            const response = await axios.post(`${baseAPIURL}/player/forgotPassword`)
-            console.log(response);
+           await axios.post(`${baseURL}/player/forgotPassword`)
+         
         } catch (error) {
             throw error
         }

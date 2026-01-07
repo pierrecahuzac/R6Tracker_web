@@ -2,10 +2,12 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import '../styles/signup.scss'
 import useToast from "../hooks/useToast";
-// URL de base de votre API (récupérée de l'environnement Vite)
-const baseAPIURL = import.meta.env.VITE_PUBLIC_BASE_API_URL;
+import baseURL from "../functions/baseURL.tsx"
+import '../styles/signup.scss';
+
+
+
 const Signup = () => {
   const [credentials, setCredentials] = useState({
     email: '',
@@ -13,142 +15,134 @@ const Signup = () => {
     password: '',
     passwordConfirmation: "",
   });
-  const { onSuccess } = useToast()
-  const navigate = useNavigate();
-  const {
-    onError,
-  } = useToast()
-  /**
-   * Gestionnaire générique des changements de saisie.
-   * Cette version garantit la compatibilité en accédant toujours à e.target.
-   * @param {import('react').ChangeEvent<HTMLInputElement>} e - L'objet événement de changement.
-   */
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // CORRECTION/OPTIMISATION : On assure que l'on extrait le 'name' et le 'value' de l'input
-    const { name, value } = e.target;
+  
+  // Ajout d'un état de chargement pour l'UX
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Mise à jour de l'état avec la propriété dynamique [name]
+  const { onSuccess, onError } = useToast();
+  const navigate = useNavigate();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setCredentials((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  /**
-   * Gestionnaire de la soumission du formulaire
-   */
   const handleSubmitAccount = async (e: React.FormEvent<HTMLFormElement>) => {
-    // Empêche le rechargement de la page par défaut (correction pour éviter les fetch involontaires)
     e.preventDefault();
 
-    // Vérifications...
-    if (credentials.password !== credentials.passwordConfirmation) {
-      console.error("Erreur: Les mots de passe ne correspondent pas.");
-      return;
-    }
-
+    // 1. Validations de base
     if (!credentials.email || !credentials.password || !credentials.username) {
-      console.error("Champs requis: Veuillez renseigner tous les champs.");
+      onError("Veuillez renseigner tous les champs.");
       return;
     }
 
+    if (credentials.password !== credentials.passwordConfirmation) {
+      onError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    
     try {
-      const response = await axios.post(`${baseAPIURL}/player/signup`, {
+ 
+      const response = await axios.post(`${baseURL}/player/signup`, {
         email: credentials.email,
         password: credentials.password,
         username: credentials.username
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })      
-           
-     
+      });
+
       if (response.status === 201) {
-        onSuccess('Compte crée avec succès');
-        setTimeout(() => {
-          navigate('/signin')
-        }, 2000)
-      }  
+        onSuccess('Compte créé avec succès');
+        // Redirection après un court délai
+        setTimeout(() => navigate('/signin'), 2000);
+      }
     } catch (error) {
-      console.log(error);
+      // 3. Gestion fine des erreurs Axios
+      let message = "Une erreur est survenue lors de l'inscription.";
       
-      const errorMessage = axios.isAxiosError(error)
-        ? (error.response?.data as any)?.message || "Erreur inconnue lors de l'inscription."
-        : "Erreur inconnue lors de l'inscription.";
-      console.error("Erreur API:", errorMessage);
-      onError(errorMessage)      
+      if (axios.isAxiosError(error)) {
+        message = error.response?.data?.message || message;
+      }
+      
+      console.error("Erreur API:", error);
+      onError(message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div
-      className="signup"
-    >
+    <div className="signup">
       <h1 style={{ marginBottom: 12 }}>Créer mon compte</h1>
 
-
-      <form
-        onSubmit={handleSubmitAccount}
-
-      >
-
-
+      <form onSubmit={handleSubmitAccount}>
         <input
-        data-aos="fade-right"
+          data-aos="fade-right"
           data-aos-delay="100"
           className="input__email"
           placeholder="Email"
-          name="email" // CLÉ CRUCIALE: Doit correspondre à l'état
+          name="email"
           value={credentials.email}
-          onChange={handleInputChange} // Utilisation du gestionnaire générique
+          onChange={handleInputChange}
           autoCapitalize="none"
           type="email"
+          disabled={isLoading}
         />
         <input
-        data-aos="fade-right"
+          data-aos="fade-right"
           data-aos-delay="150"
           className="input__username"
           placeholder="Nom d'utilisateur"
-          name="username" // CLÉ CRUCIALE: Doit correspondre à l'état
+          name="username"
           value={credentials.username}
           onChange={handleInputChange}
+          disabled={isLoading}
         />
         <input
-        data-aos="fade-right"
+          data-aos="fade-right"
           data-aos-delay="200"
           className="input__password"
           placeholder="Mot de passe"
-          name="password" // CLÉ CRUCIALE: Doit correspondre à l'état
+          name="password"
           value={credentials.password}
           onChange={handleInputChange}
           type="password"
+          disabled={isLoading}
         />
         <input
-        data-aos="fade-right"
+          data-aos="fade-right"
           data-aos-delay="250"
           className="input__password"
-          placeholder="Confimation du mot de passe"
-          name="passwordConfirmation" // CLÉ CRUCIALE: Doit correspondre à l'état
+          placeholder="Confirmation du mot de passe"
+          name="passwordConfirmation"
           value={credentials.passwordConfirmation}
           onChange={handleInputChange}
           type="password"
+          disabled={isLoading}
         />
-        {/* BOUTON de soumission */}
+
         <div style={{ width: 240, marginBottom: 16 }}>
-          <button type="submit" className="button__submit"
-          data-aos="fade-right"
-          data-aos-delay="300">
-            Créer mon compte
+          <button 
+            type="submit" 
+            className="button__submit"
+            data-aos="fade-right"
+            data-aos-delay="300"
+            disabled={isLoading}
+          >
+            {isLoading ? "Chargement..." : "Créer mon compte"}
           </button>
         </div>
       </form>
-      <Link to="/signin">J'ai un compte</Link>
-      {/* <Toast /> */}
+      
+      <Link to="/signin" className={isLoading ? "disabled-link" : ""}>
+        J'ai un compte
+      </Link>
     </div>
   );
 }
-
-
 
 export default Signup;

@@ -2,9 +2,10 @@ import axios from "axios";
 import type { Player } from "../type/player";
 import type { NavigateFunction } from "react-router-dom";
 import baseURL from './baseURL'
-import type { PlayerData } from "../type/playerData";
 
 
+
+console.log(baseURL);
 
 export const logout = async (
   setPlayer: (value: Player) => void,

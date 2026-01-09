@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "up": "docker compose up --build",
+    "down": "docker compose down",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
